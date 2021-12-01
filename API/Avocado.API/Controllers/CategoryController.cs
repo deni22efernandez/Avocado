@@ -1,4 +1,6 @@
-﻿using Avocado.API.Services;
+﻿using Avocado.API.Mapper;
+using Avocado.API.Models.Dtos;
+using Avocado.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,13 +23,13 @@ namespace Avocado.API.Controllers
 		public async Task<IActionResult> GetAsync(int id)
 		{
 			var result = await _unit.CategoryRepository.Get(id);
-			return Ok(result);
+			return Ok(result.Map<CategoryDto>());
 		}
 		[HttpGet]
 		public async Task<IActionResult> GetAsync()
 		{
 			var result = await _unit.CategoryRepository.GetAll();
-			return Ok(result);
+			return Ok(result.Map<IEnumerable<CategoryDto>>());
 		}
 	}
 }
