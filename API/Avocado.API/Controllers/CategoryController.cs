@@ -1,11 +1,9 @@
 ﻿using Avocado.API.Mapper;
+using Avocado.API.Models;
 using Avocado.API.Models.Dtos;
-using Avocado.API.Services;
-using Microsoft.AspNetCore.Http;
+using Avocado.API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Avocado.API.Controllers
@@ -22,14 +20,22 @@ namespace Avocado.API.Controllers
 		[HttpGet("{id:int}")]
 		public async Task<IActionResult> GetAsync(int id)
 		{
-			var result = await _unit.CategoryRepository.Get(id);
+			var result = await _unit.CategoryRepository.GetAsync(x=>x.Id==id);
 			return Ok(result.Map<CategoryDto>());
 		}
 		[HttpGet]
 		public async Task<IActionResult> GetAsync()
 		{
-			var result = await _unit.CategoryRepository.GetAll();
+			var result = await _unit.CategoryRepository.GetAllAsync();
 			return Ok(result.Map<IEnumerable<CategoryDto>>());
+		}
+		[HttpPost]
+		public async Task<IActionResult> PostAsync(CategoryCreateDto categoryCreateDto)
+		{
+			var obj = categoryCreateDto.Map<Category>();
+			await _unit.CategoryRepository.AddAsync(obj);
+			_unit.Save();
+			return Created("GetAsync", obj);
 		}
 	}
 }
