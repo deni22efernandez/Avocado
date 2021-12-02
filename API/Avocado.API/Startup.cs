@@ -1,6 +1,6 @@
 using Avocado.API.DataAccess;
+using Avocado.API.Repository;
 using Avocado.API.Repository.IRepository;
-using Avocado.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
