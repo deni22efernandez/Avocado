@@ -24,7 +24,7 @@ namespace Avocado.API
 		{
 			services.AddDbContext<ApplicationDbContext>(x =>
 					x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-			services.AddTransient<IUnitOfWork,UnitOfWork>();			
+			services.AddScoped<IUnitOfWork,UnitOfWork>();			
 			services.AddControllers();
 		}
 
