@@ -15,7 +15,9 @@ namespace Avocado.API.Models
 		//[Required]
 		public double OrderTotal { get; set; }
 		///[Required]
-		public int CustomerId { get; set; }		
+		public int UserId { get; set; }
+		//[ForeignKey("UserId")]
+		public User User { get; set; }
 		//[Required]
 		public int PaymentTypeId { get; set; }
 		//[ForeignKey("PaymentTypeId")]
@@ -31,5 +33,6 @@ namespace Avocado.API.Models
 		public string StreetAddress { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
+		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }

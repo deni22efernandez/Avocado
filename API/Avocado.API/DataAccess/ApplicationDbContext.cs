@@ -19,6 +19,11 @@ namespace Avocado.API.DataAccess
 		{
 			base.OnModelCreating(builder);
 			builder.ApplyConfiguration(new CategoryConfig());
+			builder.ApplyConfiguration(new OrderDetailConfig());
+			builder.ApplyConfiguration(new OrderHeaderConfig());
+			builder.ApplyConfiguration(new PaymentTypeConfig());
+			builder.ApplyConfiguration(new ProductConfig());
+			builder.ApplyConfiguration(new UserConfig());
 		}
 	}
 }

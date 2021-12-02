@@ -20,5 +20,6 @@ namespace Avocado.API.Models
 		//[ForeignKey("CategoryId")]
 		public Category Category { get; set; }
 		public string ImgUri { get; set; }
+		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }
