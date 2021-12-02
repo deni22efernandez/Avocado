@@ -8,18 +8,17 @@ using System.Threading.Tasks;
 
 namespace Avocado.API.Repository
 {
-	
-	public class CategoryRepository :  Repository<Category>, ICategoryRepository
+	public class ProductRepository : Repository<Product> , IProductRepository
 	{
 		private readonly ApplicationDbContext _context;
-		public CategoryRepository(ApplicationDbContext contxt):base(contxt)
+		public ProductRepository(ApplicationDbContext context):base(context)
 		{
-			_context = contxt;
+			_context = context;
 		}
 
-		public void Update(Category category)
+		public void Update(Product product)
 		{
-			 _context.Update(category);//
+			throw new NotImplementedException();
 		}
 	}
 }

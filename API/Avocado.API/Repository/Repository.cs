@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Avocado.API.Services
+namespace Avocado.API.Repository
 {
 	public class Repository<T> : IRepository<T>  where T : class
 	{
