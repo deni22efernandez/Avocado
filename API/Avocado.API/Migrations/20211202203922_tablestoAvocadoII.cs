@@ -3,40 +3,40 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Avocado.API.Migrations
 {
-    public partial class InitializeII : Migration
+    public partial class tablestoAvocadoII : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PaymentType",
+                name: "PaymentTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(maxLength: 50, nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentType", x => x.Id);
+                    table.PrimaryKey("PK_PaymentTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(maxLength: 100, nullable: true),
+                    Description = table.Column<string>(maxLength: 2147483647, nullable: true),
                     Price = table.Column<double>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
                     ImgUri = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_Categories_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
@@ -44,13 +44,13 @@ namespace Avocado.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
@@ -61,11 +61,11 @@ namespace Avocado.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderHeader",
+                name: "OrderHeaders",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -88,23 +88,23 @@ namespace Avocado.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderHeader", x => x.Id);
+                    table.PrimaryKey("PK_OrderHeaders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderHeader_PaymentType_PaymentTypeId",
+                        name: "FK_OrderHeaders_PaymentTypes_PaymentTypeId",
                         column: x => x.PaymentTypeId,
-                        principalTable: "PaymentType",
+                        principalTable: "PaymentTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderHeader_User_UserId",
+                        name: "FK_OrderHeaders_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetail",
+                name: "OrderDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -115,73 +115,63 @@ namespace Avocado.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetail", x => x.Id);
+                    table.PrimaryKey("PK_OrderDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDetail_OrderHeader_OrderHeaderId",
+                        name: "FK_OrderDetails_OrderHeaders_OrderHeaderId",
                         column: x => x.OrderHeaderId,
-                        principalTable: "OrderHeader",
+                        principalTable: "OrderHeaders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetail_Product_ProductId",
+                        name: "FK_OrderDetails_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "PaymentType",
-                columns: new[] { "Id", "Description" },
-                values: new object[] { 1, "Credit card" });
-
-            migrationBuilder.InsertData(
-                table: "PaymentType",
-                columns: new[] { "Id", "Description" },
-                values: new object[] { 2, "Cash" });
-
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_OrderHeaderId",
-                table: "OrderDetail",
+                name: "IX_OrderDetails_OrderHeaderId",
+                table: "OrderDetails",
                 column: "OrderHeaderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_ProductId",
-                table: "OrderDetail",
+                name: "IX_OrderDetails_ProductId",
+                table: "OrderDetails",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderHeader_PaymentTypeId",
-                table: "OrderHeader",
+                name: "IX_OrderHeaders_PaymentTypeId",
+                table: "OrderHeaders",
                 column: "PaymentTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderHeader_UserId",
-                table: "OrderHeader",
+                name: "IX_OrderHeaders_UserId",
+                table: "OrderHeaders",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_CategoryId",
-                table: "Product",
+                name: "IX_Products_CategoryId",
+                table: "Products",
                 column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderDetail");
+                name: "OrderDetails");
 
             migrationBuilder.DropTable(
-                name: "OrderHeader");
+                name: "OrderHeaders");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "PaymentType");
+                name: "PaymentTypes");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

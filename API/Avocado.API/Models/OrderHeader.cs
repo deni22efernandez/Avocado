@@ -10,17 +10,17 @@ namespace Avocado.API.Models
 	public class OrderHeader
 	{
 		public int Id { get; set; }
-		//[Required]
+		[Required]
 		public DateTime OrderDate { get; set; }
-		//[Required]
+		[Required]
 		public double OrderTotal { get; set; }
-		///[Required]
+		[Required]
 		public int UserId { get; set; }
-		//[ForeignKey("UserId")]
+		[ForeignKey("UserId")]
 		public User User { get; set; }
-		//[Required]
+		[Required]
 		public int PaymentTypeId { get; set; }
-		//[ForeignKey("PaymentTypeId")]
+		[ForeignKey("PaymentTypeId")]
 		public PaymentType PaymentType { get; set; }
 		public string OrderStatus { get; set; }
 		public string PaymentStatus { get; set; }
@@ -33,6 +33,6 @@ namespace Avocado.API.Models
 		public string StreetAddress { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
-		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+		//public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }

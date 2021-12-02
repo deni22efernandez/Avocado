@@ -27,34 +27,11 @@ namespace Avocado.API.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Main course"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Side dish"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Drink"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Dessert"
-                        });
                 });
 
             modelBuilder.Entity("Avocado.API.Models.OrderDetail", b =>
@@ -79,7 +56,7 @@ namespace Avocado.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("Avocado.API.Models.OrderHeader", b =>
@@ -140,7 +117,7 @@ namespace Avocado.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrderHeader");
+                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("Avocado.API.Models.PaymentType", b =>
@@ -151,24 +128,11 @@ namespace Avocado.API.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentType");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Credit card"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Cash"
-                        });
+                    b.ToTable("PaymentTypes");
                 });
 
             modelBuilder.Entity("Avocado.API.Models.Product", b =>
@@ -182,8 +146,8 @@ namespace Avocado.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(2147483647);
 
                     b.Property<string>("ImgUri")
                         .HasColumnType("nvarchar(max)");
@@ -199,7 +163,7 @@ namespace Avocado.API.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Avocado.API.Models.User", b =>
@@ -219,7 +183,6 @@ namespace Avocado.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -235,24 +198,23 @@ namespace Avocado.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Avocado.API.Models.OrderDetail", b =>
                 {
                     b.HasOne("Avocado.API.Models.OrderHeader", "OrderHeader")
-                        .WithMany("OrderDetails")
+                        .WithMany()
                         .HasForeignKey("OrderHeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Avocado.API.Models.Product", "Product")
-                        .WithMany("OrderDetails")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -261,13 +223,13 @@ namespace Avocado.API.Migrations
             modelBuilder.Entity("Avocado.API.Models.OrderHeader", b =>
                 {
                     b.HasOne("Avocado.API.Models.PaymentType", "PaymentType")
-                        .WithMany("OrderHeaders")
+                        .WithMany()
                         .HasForeignKey("PaymentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Avocado.API.Models.User", "User")
-                        .WithMany("OrderHeaders")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -276,7 +238,7 @@ namespace Avocado.API.Migrations
             modelBuilder.Entity("Avocado.API.Models.Product", b =>
                 {
                     b.HasOne("Avocado.API.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

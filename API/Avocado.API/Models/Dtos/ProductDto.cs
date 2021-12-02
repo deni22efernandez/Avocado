@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Avocado.API.Models
+namespace Avocado.API.Models.Dtos
 {
-	public class Product
+	public class ProductDto
 	{
 		public int Id { get; set; }
 		[Required]
@@ -17,9 +16,8 @@ namespace Avocado.API.Models
 		public double Price { get; set; }
 		[Required]
 		public int CategoryId { get; set; }
-		[ForeignKey("CategoryId")]
+		//[ForeignKey("CategoryId")]
 		public Category Category { get; set; }
 		public string ImgUri { get; set; }
-		//public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }

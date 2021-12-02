@@ -14,6 +14,6 @@ namespace Avocado.API.Repository.IRepository
 		IOrderDetailRepository OrderDetailRepository { get; }
 		IOrderHeaderRepository OrderHeaderRepository { get; }
 		ICategoryRepository CategoryRepository { get; }
-		void Save();
+		Task SaveAsync();
 	}
 }

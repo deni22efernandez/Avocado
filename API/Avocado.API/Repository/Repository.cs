@@ -28,9 +28,9 @@ namespace Avocado.API.Repository
 			}
 			if (!string.IsNullOrEmpty(includeProperties))
 			{
-				foreach (var item in includeProperties.Split(new char[] {',' }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (var item in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
 				{
-					query.Include(item);
+					query=query.Include(item);
 				}
 			}
 			return await query.FirstOrDefaultAsync();
@@ -55,14 +55,12 @@ namespace Avocado.API.Repository
 		}
 		public async Task AddAsync(T entity)
 		{
-			await _dbSet.AddAsync(entity);		
-			
+			await _dbSet.AddAsync(entity);					
 		}
 		public async Task DeleteAsync(int id)
 		{
 			var entityFromDb = await _dbSet.FindAsync(id);
 			_dbSet.Remove(entityFromDb);
-
 		}
 	}
 }

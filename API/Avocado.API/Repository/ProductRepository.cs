@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Avocado.API.Repository
 {
-	public class ProductRepository : Repository<Product> , IProductRepository
+	public class Products : Repository<Product> , IProductRepository
 	{
 		private readonly ApplicationDbContext _context;
-		public ProductRepository(ApplicationDbContext context):base(context)
+		public Products(ApplicationDbContext context):base(context)
 		{
 			_context = context;
 		}

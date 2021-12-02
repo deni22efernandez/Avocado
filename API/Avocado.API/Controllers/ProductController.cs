@@ -1,0 +1,54 @@
+﻿using Avocado.API.DataAccess;
+using Avocado.API.Mapper;
+using Avocado.API.Models;
+using Avocado.API.Models.Dtos;
+using Avocado.API.Repository;
+using Avocado.API.Repository.IRepository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Avocado.API.Controllers
+{
+	[Route("products")]
+	[ApiController]
+	public class ProductController : ControllerBase
+	{
+		private readonly IUnitOfWork _unitOfWork;
+		public ProductController(IUnitOfWork unitOfWork)
+		{
+			_unitOfWork = unitOfWork;
+		}
+		[HttpGet]
+		public async Task<IActionResult> GetAsync()
+		{
+			var prodList = await _unitOfWork.ProductRepository.GetAllAsync();
+			if (prodList.Count() != 0)
+			{
+				return Ok(prodList.Map<IEnumerable<ProductDto>>());
+			}
+			return NotFound();
+		}
+		[HttpGet("{id:int}")]
+		public async Task<IActionResult> GetAsync(int id)
+		{
+			var prod = await _unitOfWork.ProductRepository.GetAsync(x=>x.Id==id,includeProperties:"Category");
+			
+			if (prod != null)
+			{
+				return Ok(prod.Map<ProductDto>());
+			}
+			return NotFound();
+		}
+		[HttpPost]
+		public async Task<IActionResult> PostAsync([FromBody] ProductDto productDto)
+		{
+			await _unitOfWork.ProductRepository.AddAsync(productDto.Map<Product>());
+			await _unitOfWork.SaveAsync();
+			return CreatedAtRoute(nameof(GetAsync), new { id = productDto.Id });//change
+		}
+	}
+}
