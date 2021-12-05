@@ -21,11 +21,22 @@ namespace Avocado.API.Repository
 		}
 		public void Execute(string procedureName, DynamicParameters param = null)
 		{
-			using(var sqlConn= new SqlConnection(ConnectionString))
+			using(var sqlConn = new SqlConnection(ConnectionString))
 			{
-				sqlConn.Open();
+				sqlConn.Open();				
 				sqlConn.Execute(procedureName, param, commandType:System.Data.CommandType.StoredProcedure);
+				
 			}
 		}
+		public T ExecuteScalar<T>(string procedureName, DynamicParameters param = null)
+		{
+			using (var sqlConn = new SqlConnection(ConnectionString))
+			{
+				sqlConn.Open();
+				return (T)Convert.ChangeType(sqlConn.ExecuteScalar<int>(procedureName, param, commandType: System.Data.CommandType.StoredProcedure), typeof(T));
+
+			}
+		}
+
 	}
 }

@@ -54,20 +54,47 @@ namespace Avocado.API.Controllers
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> Patch([FromBody] ProductUpdateDto productDto)
+		public async Task<IActionResult> Patch(int? Id, [FromBody] ProductUpdateDto productDto)
 		{
+			var parameters = new DynamicParameters();
 			if (productDto.Id != 0)//update
-			{
-				await _unitOfWork.ProductRepository.UpdateAsync(productDto.Map<Product>());
+			{				
+				parameters.Add("@Id", productDto.Id);
+				parameters.Add("@Name", productDto.Name);
+				parameters.Add("@Desc", productDto.Description);
+				parameters.Add("@Price", productDto.Price);
+				parameters.Add("@CategoryId", productDto.CategoryId);
+				parameters.Add("@Img", productDto.ImgUri);
+			    _unitOfWork.Stored_Proc_Calls.Execute("_sp_ProductUpsert", parameters);
 				await _unitOfWork.SaveAsync();
 				return NoContent();
 			}
 			//create
-			var objToCreate = productDto.Map<Product>();
-			await _unitOfWork.ProductRepository.AddAsync(objToCreate);
+			parameters.Add("@Name", productDto.Name);
+			parameters.Add("@Desc", productDto.Description);
+			parameters.Add("@Price", productDto.Price);
+			parameters.Add("@CategoryId", productDto.CategoryId);
+			parameters.Add("@Img", productDto.ImgUri);
+			_unitOfWork.Stored_Proc_Calls.Execute("_sp_ProductUpsert", parameters);
 			await _unitOfWork.SaveAsync();
-			return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
+			return Ok();
 		}
+
+		//[HttpPatch]
+		//public async Task<IActionResult> Patch([FromBody] ProductUpdateDto productDto)
+		//{
+		//	if (productDto.Id != 0)//update
+		//	{
+		//		await _unitOfWork.ProductRepository.UpdateAsync(productDto.Map<Product>());
+		//		await _unitOfWork.SaveAsync();
+		//		return NoContent();
+		//	}
+		//	//create
+		//	var objToCreate = productDto.Map<Product>();
+		//	await _unitOfWork.ProductRepository.AddAsync(objToCreate);
+		//	await _unitOfWork.SaveAsync();
+		//	return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
+		//}
 		[HttpPut]
 		public async Task<IActionResult> UpdateAsync([FromBody] ProductUpdateDto productUpdateDto)
 		{
