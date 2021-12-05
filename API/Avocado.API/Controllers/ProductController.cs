@@ -4,6 +4,7 @@ using Avocado.API.Models;
 using Avocado.API.Models.Dtos.ProductDtos;
 using Avocado.API.Repository;
 using Avocado.API.Repository.IRepository;
+using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -57,7 +58,7 @@ namespace Avocado.API.Controllers
 		{
 			if (productDto.Id != 0)//update
 			{
-			    await _unitOfWork.ProductRepository.UpdateAsync(productDto.Map<Product>());
+				await _unitOfWork.ProductRepository.UpdateAsync(productDto.Map<Product>());
 				await _unitOfWork.SaveAsync();
 				return NoContent();
 			}
@@ -66,6 +67,21 @@ namespace Avocado.API.Controllers
 			await _unitOfWork.ProductRepository.AddAsync(objToCreate);
 			await _unitOfWork.SaveAsync();
 			return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
+		}
+		[HttpPut]
+		public async Task<IActionResult> UpdateAsync([FromBody] ProductUpdateDto productUpdateDto)
+		{
+			var parameter = new DynamicParameters();
+			parameter.Add("@ProdId", productUpdateDto.Id);
+			parameter.Add("@Name", productUpdateDto.Name);
+			parameter.Add("@Price", productUpdateDto.Price);
+			parameter.Add("@Desc", productUpdateDto.Description);
+			parameter.Add("@CategoryId", productUpdateDto.CategoryId);
+			parameter.Add("@Img", productUpdateDto.ImgUri);
+
+			_unitOfWork.Stored_Proc_Calls.Execute("_sp_UpdateProduct", parameter);
+			await _unitOfWork.SaveAsync();
+			return NoContent();
 		}
 	}
 }

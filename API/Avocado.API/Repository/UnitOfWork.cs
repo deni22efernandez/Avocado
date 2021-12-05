@@ -20,6 +20,7 @@ namespace Avocado.API.Repository
 			UserRepository = new UserRepository(_contxt);
 			OrderHeaderRepository = new OrderHeaderRepository(_contxt);
 			OrderDetailRepository = new OrderDetailRepository(_contxt);
+			Stored_Proc_Calls = new Stored_Proc_Calls(_contxt);
 		}
 		public ICategoryRepository CategoryRepository { get; private set; }
 		public IProductRepository ProductRepository { get; private set; }
@@ -27,6 +28,8 @@ namespace Avocado.API.Repository
 		public IUserRepository UserRepository { get; private set; }
 		public IOrderDetailRepository OrderDetailRepository { get; private set; }
 		public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
+
+		public IStored_Proc_Calls Stored_Proc_Calls { get; private set; }
 
 		public async Task SaveAsync()
 		{
