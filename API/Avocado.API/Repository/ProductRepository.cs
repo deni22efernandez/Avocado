@@ -1,6 +1,7 @@
 ﻿using Avocado.API.DataAccess;
 using Avocado.API.Models;
 using Avocado.API.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,19 @@ namespace Avocado.API.Repository
 			_context = context;
 		}
 
-		public void Update(Product product)
+		public async Task UpdateAsync(Product product)
 		{
-			throw new NotImplementedException();
+			var objFromDb = await _context.Products.FirstOrDefaultAsync(x => x.Id == product.Id);
+			if (product.ImgUri != null)
+			{
+				objFromDb.ImgUri = product.ImgUri;
+			}
+			objFromDb.Name = product.Name;
+			objFromDb.Description = product.Description;
+			objFromDb.CategoryId = product.CategoryId;
+			objFromDb.Price = product.Price;
+			
+			 _context.Products.Update(objFromDb);
 		}
 	}
 }

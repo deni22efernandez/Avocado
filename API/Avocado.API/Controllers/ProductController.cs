@@ -1,7 +1,7 @@
 ﻿using Avocado.API.DataAccess;
 using Avocado.API.Mapper;
 using Avocado.API.Models;
-using Avocado.API.Models.Dtos;
+using Avocado.API.Models.Dtos.ProductDtos;
 using Avocado.API.Repository;
 using Avocado.API.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
@@ -44,11 +44,28 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpPost]
-		public async Task<IActionResult> PostAsync([FromBody] ProductDto productDto)
+		public async Task<IActionResult> PostAsync([FromBody] ProductCreateDto productDto)
 		{
-			await _unitOfWork.ProductRepository.AddAsync(productDto.Map<Product>());
+			var objToCreate = productDto.Map<Product>();
+			await _unitOfWork.ProductRepository.AddAsync(objToCreate);
 			await _unitOfWork.SaveAsync();
-			return CreatedAtRoute(nameof(GetAsync), new { id = productDto.Id });//change
+			return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
+		}
+
+		[HttpPatch]
+		public async Task<IActionResult> Patch([FromBody] ProductUpdateDto productDto)
+		{
+			if (productDto.Id != 0)//update
+			{
+			    await _unitOfWork.ProductRepository.UpdateAsync(productDto.Map<Product>());
+				await _unitOfWork.SaveAsync();
+				return NoContent();
+			}
+			//create
+			var objToCreate = productDto.Map<Product>();
+			await _unitOfWork.ProductRepository.AddAsync(objToCreate);
+			await _unitOfWork.SaveAsync();
+			return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
 		}
 	}
 }
