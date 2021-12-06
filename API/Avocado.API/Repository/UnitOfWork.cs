@@ -1,5 +1,7 @@
 ﻿using Avocado.API.DataAccess;
+using Avocado.API.Models;
 using Avocado.API.Repository.IRepository;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,13 @@ namespace Avocado.API.Repository
 	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly ApplicationDbContext _contxt;
-		public UnitOfWork(ApplicationDbContext contxt)
+		public UnitOfWork(ApplicationDbContext contxt, IOptions<AppSettings> options)
 		{
 			_contxt = contxt;
 			CategoryRepository = new CategoryRepository(_contxt);
 			ProductRepository = new Products(_contxt);
 			PaymentTypeRepository = new PaymentTypeRepository(_contxt);
-			UserRepository = new UserRepository(_contxt);
+			UserRepository = new UserRepository(_contxt, options);
 			OrderHeaderRepository = new OrderHeaderRepository(_contxt);
 			OrderDetailRepository = new OrderDetailRepository(_contxt);
 			Stored_Proc_Calls = new Stored_Proc_Calls(_contxt);
