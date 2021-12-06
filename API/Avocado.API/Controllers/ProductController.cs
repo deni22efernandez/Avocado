@@ -54,7 +54,7 @@ namespace Avocado.API.Controllers
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> Patch(int? Id, [FromBody] ProductUpdateDto productDto)
+		public async Task<IActionResult> Patch( [FromBody] ProductUpdateDto productDto)
 		{
 			var parameters = new DynamicParameters();
 			if (productDto.Id != 0)//update
@@ -65,7 +65,7 @@ namespace Avocado.API.Controllers
 				parameters.Add("@Price", productDto.Price);
 				parameters.Add("@CategoryId", productDto.CategoryId);
 				parameters.Add("@Img", productDto.ImgUri);
-			    _unitOfWork.Stored_Proc_Calls.Execute("_sp_ProductUpsert", parameters);
+			   _unitOfWork.Stored_Proc_Calls.Execute("_sp_ProductUpsert", parameters);
 				await _unitOfWork.SaveAsync();
 				return NoContent();
 			}
@@ -75,9 +75,10 @@ namespace Avocado.API.Controllers
 			parameters.Add("@Price", productDto.Price);
 			parameters.Add("@CategoryId", productDto.CategoryId);
 			parameters.Add("@Img", productDto.ImgUri);
-			_unitOfWork.Stored_Proc_Calls.Execute("_sp_ProductUpsert", parameters);
+			var result = _unitOfWork.Stored_Proc_Calls.ExecuteScalar<int>("_sp_ProductUpsert", parameters);
 			await _unitOfWork.SaveAsync();
-			return Ok();
+			var created = await _unitOfWork.ProductRepository.GetAsync(x => x.Id == result);
+			return CreatedAtAction("Get", new { id=created.Id}, created);
 		}
 
 		//[HttpPatch]
