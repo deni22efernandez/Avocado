@@ -1,3 +1,5 @@
+using Avocado.WEB.Repository;
+using Avocado.WEB.Repository.IRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +25,8 @@ namespace Avocado.WEB
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddHttpClient();
+			services.AddScoped<IProductRepository, ProductRepository>();
 			services.AddControllersWithViews();
 		}
 

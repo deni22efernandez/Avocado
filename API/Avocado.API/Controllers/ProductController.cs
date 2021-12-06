@@ -26,7 +26,7 @@ namespace Avocado.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAsync()
 		{
-			var prodList = await _unitOfWork.ProductRepository.GetAllAsync();
+			var prodList = await _unitOfWork.ProductRepository.GetAllAsync(includeProperties:"Category");
 			if (prodList.Count() != 0)
 			{
 				return Ok(prodList.Map<IEnumerable<ProductDto>>());
