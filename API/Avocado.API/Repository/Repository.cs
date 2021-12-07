@@ -33,7 +33,8 @@ namespace Avocado.API.Repository
 					query=query.Include(item);
 				}
 			}
-			return await query.FirstOrDefaultAsync();
+			
+			return await query.AsNoTracking().FirstOrDefaultAsync();
 		}
 
 		public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null)
@@ -50,7 +51,7 @@ namespace Avocado.API.Repository
 					query = query.Include(item);
 				}
 			}
-			return await query.ToListAsync();
+			return await query.AsNoTracking().ToListAsync();
 
 		}
 		public async Task AddAsync(T entity)
