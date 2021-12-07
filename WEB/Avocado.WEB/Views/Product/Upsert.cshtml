@@ -1,0 +1,70 @@
+﻿@model Avocado.WEB.Models.Dtos.ProductUpsertVM
+
+@{
+	ViewData["Title"] = "Upsert";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model.Product.Id == 0)
+{
+	<h4>New product</h4>
+}
+else
+{
+	<h4>Update: @Model.Product.Name</h4>
+}
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Upsert" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="@Model.Product.Id" />
+			<div class="form-group">
+				<label asp-for="Product.Name" class="control-label"></label>
+				<input asp-for="Product.Name" class="form-control" />
+				<span asp-validation-for="Product.Name" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Product.Description" class="control-label"></label>
+				<input asp-for="Product.Description" class="form-control" />
+				<span asp-validation-for="Product.Description" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Product.Price" class="control-label"></label>
+				<input asp-for="Product.Price" class="form-control" />
+				<span asp-validation-for="Product.Price" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Product.Category" class="control-label"></label>
+				@Html.DropDownListFor(x => x.Product.CategoryId, Model.Categories, "Select category...", new { @class = "form-control" })
+				@*<select asp-for="Categories" asp-items="@Model.Categories" class="form-control"></select>*@
+				<span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Image</label>
+				<input type="file" multiple name="files" class="form-control" />
+				<span asp-validation-for="Product.ImgUri" class="text-danger"></span>
+			</div>
+			@if (Model.Product.Id == 0)
+			{
+				<div class="form-group">
+					<input type="submit" value="Create" class="btn btn-primary" />
+				</div>
+			}
+			else
+			{
+				<div class="form-group">
+					<input type="submit" value="Update" class="btn btn-primary" />
+				</div>
+			}
+
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

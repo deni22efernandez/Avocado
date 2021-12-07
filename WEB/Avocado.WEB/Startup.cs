@@ -27,6 +27,7 @@ namespace Avocado.WEB
 		{
 			services.AddHttpClient();
 			services.AddScoped<IProductRepository, ProductRepository>();
+			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddControllersWithViews();
 		}
 

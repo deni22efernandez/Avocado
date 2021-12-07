@@ -52,6 +52,7 @@ namespace Avocado.WEB.Repository
 				HttpResponseMessage response = await client.SendAsync(request);
 				if (response.StatusCode==System.Net.HttpStatusCode.Created)
 				{
+					//deserialize the created object
 					return true;
 				}
 				return false;
@@ -59,7 +60,7 @@ namespace Avocado.WEB.Repository
 		}
 		public async Task<bool> PutAsync(T entity, string uri)
 		{
-			var request = new HttpRequestMessage(HttpMethod.Patch, uri);
+			var request = new HttpRequestMessage(HttpMethod.Put, uri);//test patch
 			request.Content = new StringContent(JsonConvert.SerializeObject(entity), System.Text.Encoding.UTF8, "application/json");
 			using (var client = _httpClient.CreateClient())
 			{

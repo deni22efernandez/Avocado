@@ -109,7 +109,7 @@ namespace Avocado.API.Controllers
 
 			_unitOfWork.Stored_Proc_Calls.Execute("_sp_UpdateProduct", parameter);
 			await _unitOfWork.SaveAsync();
-			return NoContent();
+			return NoContent();//what returns on failure
 		}
 	}
 }
