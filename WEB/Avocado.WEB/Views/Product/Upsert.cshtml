@@ -43,7 +43,7 @@ else
 				<label class="control-label">Image</label>
 				<input type="file" multiple name="files" class="form-control" />
 				<span asp-validation-for="Product.ImgUri" class="text-danger"></span>
-			</div>
+			</div>			
 			@if (Model.Product.Id == 0)
 			{
 				<div class="form-group">
@@ -58,6 +58,12 @@ else
 			}
 
 		</form>
+	</div>
+	<div class="col-md-4">
+		@if (Model.Product.ImgUri != null)
+		{
+			<img src="~/images/@Model.Product.ImgUri" class="img-fluid img-thumbnail"/>
+		}
 	</div>
 </div>
 
