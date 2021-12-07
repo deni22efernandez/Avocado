@@ -71,7 +71,7 @@ namespace Avocado.API
 				x.AllowAnyOrigin();
 
 			});
-
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>

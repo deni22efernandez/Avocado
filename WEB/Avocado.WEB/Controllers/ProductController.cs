@@ -1,6 +1,6 @@
 ﻿using Avocado.WEB.Common;
 using Avocado.WEB.Models;
-using Avocado.WEB.Models.Dtos;
+using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

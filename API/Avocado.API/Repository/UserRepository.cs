@@ -48,16 +48,14 @@ namespace Avocado.API.Repository
 			return userFromDb;
 
 		}
-
-	
-	public bool IsUnique(string username)
-	{
-		if (_context.Users.Any(x => x.UserName == username))
+		public bool IsUnique(string username)
 		{
-			return false;
+			if (_context.Users.Any(x => x.UserName == username))
+			{
+				return false;
+			}
+			return true;
 		}
-		return true;
-	}
 
-}
+	}
 }

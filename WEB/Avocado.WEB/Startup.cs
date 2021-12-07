@@ -1,5 +1,6 @@
 using Avocado.WEB.Repository;
 using Avocado.WEB.Repository.IRepository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,17 @@ namespace Avocado.WEB
 			services.AddHttpClient();
 			services.AddScoped<IProductRepository, ProductRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(x =>
+				{
+					x.LoginPath = "Home/LoginAsync";
+					x.AccessDeniedPath = "Home/AccessDenied";
+					x.Cookie.HttpOnly = true;
+					x.Cookie.IsEssential = true;
+					x.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+					x.SlidingExpiration = true;
+				});
 			services.AddControllersWithViews();
 		}
 
@@ -48,7 +60,7 @@ namespace Avocado.WEB
 			app.UseStaticFiles();
 
 			app.UseRouting();
-
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
