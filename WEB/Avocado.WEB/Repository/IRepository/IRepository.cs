@@ -7,9 +7,9 @@ namespace Avocado.WEB.Repository.IRepository
 {
 	public interface IRepository<T> where T:class
 	{
-		Task<T> GetAsync(int id, string uri);
-		Task<IEnumerable<T>> GetAllAsync(string uri);
-		Task<bool> PostAsync(T entity, string uri);
-		Task<bool> PutAsync(T entity, string uri);
+		Task<T> GetAsync(int id, string uri, string token=null);
+		Task<IEnumerable<T>> GetAllAsync(string uri, string token = null);
+		Task<bool> PostAsync(T entity, string uri, string token = null);
+		Task<bool> PutAsync(T entity, string uri, string token = null);
 	}
 }

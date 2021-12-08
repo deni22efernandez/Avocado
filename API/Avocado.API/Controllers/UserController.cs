@@ -2,6 +2,7 @@
 using Avocado.API.Models;
 using Avocado.API.Models.Dtos.UserDtos;
 using Avocado.API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,7 @@ namespace Avocado.API.Controllers
 {
 	[Route("users")]
 	[ApiController]
+	[AllowAnonymous]
 	public class UserController : ControllerBase
 	{
 		private readonly IUnitOfWork _unitOfWork;

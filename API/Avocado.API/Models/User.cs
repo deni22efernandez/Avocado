@@ -22,6 +22,8 @@ namespace Avocado.API.Models
 		public string State { get; set; }
 		[NotMapped]
 		public string Token { get; set; }
+		
+		public string Role { get; set; }
 		//public virtual ICollection<OrderHeader> OrderHeaders { get; set; }
 	}
 }

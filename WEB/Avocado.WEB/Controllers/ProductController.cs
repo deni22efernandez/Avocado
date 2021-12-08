@@ -2,6 +2,7 @@
 using Avocado.WEB.Models;
 using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Avocado.WEB.Controllers
@@ -18,15 +20,32 @@ namespace Avocado.WEB.Controllers
 		private readonly IProductRepository _prodRepo;
 		private readonly ICategoryRepository _catRepo;
 		private IWebHostEnvironment _hostEnvironment;
+		private string token;
 		public ProductController(IProductRepository prodRepo, ICategoryRepository catRepo, IWebHostEnvironment hostEnvironment)
 		{
 			_prodRepo = prodRepo;
 			_catRepo = catRepo;
 			_hostEnvironment = hostEnvironment;
 		}
+		private string GetToken()
+		{
+			string token = "";
+			//var claims = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value;
+			//if (claims != null)
+			//{
+			//	token = claims.FindFirst(ClaimTypes.Name).Value;
+			//}
+			if (User.Identity.IsAuthenticated)
+			{
+				token = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value ?? "";
+			}
+			
+			return token;
+		}
+		
 		public async Task<IActionResult> Index()
 		{
-			return View(await _prodRepo.GetAllAsync(Common.Common.ProductApi));
+			return View(await _prodRepo.GetAllAsync(Common.Common.ProductApi,GetToken()));
 		}
 		[HttpGet]
 		public async Task<IActionResult> Upsert(int? id)
@@ -52,6 +71,7 @@ namespace Avocado.WEB.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Upsert(Product product)
 		{
 			if (ModelState.IsValid)

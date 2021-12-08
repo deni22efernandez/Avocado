@@ -1,4 +1,5 @@
 ﻿using Avocado.WEB.Repository.IRepository;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,15 @@ namespace Avocado.WEB.Repository
 		{
 			_httpClient = httpClient;
 		}
-		public async Task<T> GetAsync(int id, string uri)
+		public async Task<T> GetAsync(int id, string uri, string token = null)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Get, uri+id);
 			using (var client = _httpClient.CreateClient())
-			{				
+			{
+				if (!string.IsNullOrEmpty(token))
+				{
+					client.DefaultRequestHeaders.Add("token", token);
+				}
 				HttpResponseMessage response = await client.SendAsync(request);
 				if (response.IsSuccessStatusCode)
 				{
@@ -29,11 +34,15 @@ namespace Avocado.WEB.Repository
 				return null;
 			}
 		}
-		public async Task<IEnumerable<T>> GetAllAsync(string uri)
+		public async Task<IEnumerable<T>> GetAllAsync(string uri, string token = null)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Get, uri);
 			using (var client = _httpClient.CreateClient())
 			{
+				if (!string.IsNullOrEmpty(token))
+				{
+					client.DefaultRequestHeaders.Add("token", token);
+				}
 				HttpResponseMessage response = await client.SendAsync(request);
 				if (response.IsSuccessStatusCode)
 				{
@@ -43,12 +52,16 @@ namespace Avocado.WEB.Repository
 				return null;
 			}
 		}
-		public async Task<bool> PostAsync(T entity, string uri)
+		public async Task<bool> PostAsync(T entity, string uri, string token = null)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Post, uri);
 			request.Content = new StringContent(JsonConvert.SerializeObject(entity), System.Text.Encoding.UTF8, "application/json");
 			using (var client = _httpClient.CreateClient())
 			{
+				if (!string.IsNullOrEmpty(token))
+				{
+					client.DefaultRequestHeaders.Add("token", token);
+				}
 				HttpResponseMessage response = await client.SendAsync(request);
 				if (response.StatusCode==System.Net.HttpStatusCode.Created)
 				{
@@ -57,12 +70,16 @@ namespace Avocado.WEB.Repository
 				return false;
 			}
 		}
-		public async Task<bool> PutAsync(T entity, string uri)
+		public async Task<bool> PutAsync(T entity, string uri, string token = null)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Put, uri);//test patch
 			request.Content = new StringContent(JsonConvert.SerializeObject(entity), System.Text.Encoding.UTF8, "application/json");
 			using (var client = _httpClient.CreateClient())
 			{
+				if (!string.IsNullOrEmpty(token))
+				{
+					client.DefaultRequestHeaders.Add("token", token);
+				}
 				HttpResponseMessage response = await client.SendAsync(request);
 				if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
 				{

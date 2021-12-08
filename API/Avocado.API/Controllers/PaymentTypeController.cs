@@ -11,6 +11,7 @@ namespace Avocado.API.Controllers
 {
 	[Route("paymentTypes")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class PaymentTypeController : ControllerBase
 	{
 		private readonly IUnitOfWork _unitOfWork;

@@ -10,6 +10,7 @@ namespace Avocado.API.Controllers
 {
 	[Route("categories")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class CategoryController : ControllerBase
 	{
 		private readonly IUnitOfWork _unit;

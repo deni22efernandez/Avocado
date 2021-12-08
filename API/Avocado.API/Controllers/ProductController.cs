@@ -5,6 +5,7 @@ using Avocado.API.Models.Dtos.ProductDtos;
 using Avocado.API.Repository;
 using Avocado.API.Repository.IRepository;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,6 +25,7 @@ namespace Avocado.API.Controllers
 			_unitOfWork = unitOfWork;
 		}
 		[HttpGet]
+		[Authorize]
 		public async Task<IActionResult> GetAsync()
 		{
 			var prodList = await _unitOfWork.ProductRepository.GetAllAsync(includeProperties:"Category");
@@ -34,6 +36,7 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpGet("{id:int}")]
+		
 		public async Task<IActionResult> GetAsync(int id)
 		{
 			var prod = await _unitOfWork.ProductRepository.GetAsync(x=>x.Id==id,includeProperties:"Category");
@@ -45,6 +48,7 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpPost]
+		[Authorize(Roles ="Admin")]
 		public async Task<IActionResult> PostAsync([FromBody] ProductCreateDto productDto)
 		{
 			var objToCreate = productDto.Map<Product>();
@@ -54,6 +58,7 @@ namespace Avocado.API.Controllers
 		}
 
 		[HttpPatch]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Patch( [FromBody] ProductUpdateDto productDto)
 		{
 			var parameters = new DynamicParameters();
@@ -97,6 +102,7 @@ namespace Avocado.API.Controllers
 		//	return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
 		//}
 		[HttpPut]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> UpdateAsync([FromBody] ProductUpdateDto productUpdateDto)
 		{
 			var parameter = new DynamicParameters();

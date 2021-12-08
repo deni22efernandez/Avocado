@@ -37,7 +37,7 @@ namespace Avocado.API.Repository
 			{
 				Subject = new System.Security.Claims.ClaimsIdentity(new Claim[] {
 					new Claim(ClaimTypes.NameIdentifier, userFromDb.Id.ToString()),
-					new Claim(ClaimTypes.Role, "Customer")
+					new Claim(ClaimTypes.Role, userFromDb.Role)
 				}),
 				Expires = DateTime.UtcNow.AddDays(3),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)

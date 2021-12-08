@@ -3,6 +3,7 @@ using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Avocado.WEB.Controllers
 {
+	[AllowAnonymous]
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -46,6 +48,7 @@ namespace Avocado.WEB.Controllers
 				claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 				claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.UserName));
 				claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Token));
+				claimIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
 				ClaimsPrincipal principal = new ClaimsPrincipal(claimIdentity);
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 				return RedirectToAction(nameof(Index));
@@ -65,6 +68,7 @@ namespace Avocado.WEB.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				user.Role = "customer";
 				if(await _userRepo.PostAsync(user, Common.Common.UserApi + "register"))
 				{
 					return RedirectToAction(nameof(Index));

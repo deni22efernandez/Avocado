@@ -17,5 +17,6 @@ namespace Avocado.API.Models.Dtos.UserDtos
 		public string StreetAddress { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
+		public string Role { get; set; }
 	}
 }
