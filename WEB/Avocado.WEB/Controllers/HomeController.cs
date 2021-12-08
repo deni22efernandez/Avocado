@@ -77,6 +77,13 @@ namespace Avocado.WEB.Controllers
 			}
 			return View();
 		}
+	
+		[ActionName("Logout")]
+		public async Task<IActionResult> LogoutAsync()
+		{
+			await HttpContext.SignOutAsync();
+			return RedirectToAction(nameof(Index));
+		}
 		public IActionResult Privacy()
 		{
 			return View();
