@@ -27,7 +27,7 @@ namespace Avocado.API.Controllers
 			{
 				await _unitOfWork.UserRepository.AddAsync(registrationModel.Map<User>());
 				await _unitOfWork.SaveAsync();
-				return Ok(registrationModel.UserName);
+				return Ok();
 			}
 			return BadRequest("user already exists!");
 		}

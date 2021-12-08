@@ -33,8 +33,8 @@ namespace Avocado.WEB
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(x =>
 				{
-					x.LoginPath = "Home/LoginAsync";
-					x.AccessDeniedPath = "Home/AccessDenied";
+					x.LoginPath = "/Home/LoginAsync";
+					x.AccessDeniedPath = "/Home/AccessDenied";
 					x.Cookie.HttpOnly = true;
 					x.Cookie.IsEssential = true;
 					x.ExpireTimeSpan = TimeSpan.FromMinutes(10);

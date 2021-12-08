@@ -52,7 +52,6 @@ namespace Avocado.WEB.Repository
 				HttpResponseMessage response = await client.SendAsync(request);
 				if (response.StatusCode==System.Net.HttpStatusCode.Created)
 				{
-					//deserialize the created object
 					return true;
 				}
 				return false;

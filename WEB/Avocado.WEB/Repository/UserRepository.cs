@@ -20,7 +20,7 @@ namespace Avocado.WEB.Repository
 		public async Task<User> LoginAsync(LoginModel loginModel)
 		{
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, Common.Common.UserApi + "authenticate");
-			request.Content = new StringContent(JsonConvert.SerializeObject(loginModel));
+			request.Content = new StringContent(JsonConvert.SerializeObject(loginModel), System.Text.Encoding.UTF8, "application/json");
 			using(var client = _httpClient.CreateClient())
 			{
 				var response = await client.SendAsync(request);

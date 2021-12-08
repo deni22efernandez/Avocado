@@ -42,7 +42,7 @@ namespace Avocado.WEB.Controllers
 			var user = await _userRepo.LoginAsync(loginModel);
 			if (user != null)
 			{
-				var claimIdentity = new ClaimsIdentity();
+				var claimIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 				claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 				claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.UserName));
 				claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Token));
@@ -54,6 +54,25 @@ namespace Avocado.WEB.Controllers
 			return View(loginModel);
 		}
 
+		[HttpGet]
+		public IActionResult Register()
+		{
+			return View(new User());
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> RegisterAsync(User user)
+		{
+			if (ModelState.IsValid)
+			{
+				if(await _userRepo.PostAsync(user, Common.Common.UserApi + "register"))
+				{
+					return RedirectToAction(nameof(Index));
+				}
+				return RedirectToAction(nameof(Login));//user already exists
+			}
+			return View();
+		}
 		public IActionResult Privacy()
 		{
 			return View();
