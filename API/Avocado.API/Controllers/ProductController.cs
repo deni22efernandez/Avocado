@@ -25,7 +25,7 @@ namespace Avocado.API.Controllers
 			_unitOfWork = unitOfWork;
 		}
 		[HttpGet]
-		[Authorize]
+		
 		public async Task<IActionResult> GetAsync()
 		{
 			var prodList = await _unitOfWork.ProductRepository.GetAllAsync(includeProperties:"Category");
@@ -36,7 +36,7 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpGet("{id:int}")]
-		
+		[Authorize]
 		public async Task<IActionResult> GetAsync(int id)
 		{
 			var prod = await _unitOfWork.ProductRepository.GetAsync(x=>x.Id==id,includeProperties:"Category");

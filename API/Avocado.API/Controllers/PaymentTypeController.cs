@@ -1,6 +1,7 @@
 ﻿using Avocado.API.Mapper;
 using Avocado.API.Models.Dtos;
 using Avocado.API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

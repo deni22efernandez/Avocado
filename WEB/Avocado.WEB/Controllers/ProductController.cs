@@ -20,7 +20,7 @@ namespace Avocado.WEB.Controllers
 		private readonly IProductRepository _prodRepo;
 		private readonly ICategoryRepository _catRepo;
 		private IWebHostEnvironment _hostEnvironment;
-		private string token;
+		private string Token { get; set; } = "";
 		public ProductController(IProductRepository prodRepo, ICategoryRepository catRepo, IWebHostEnvironment hostEnvironment)
 		{
 			_prodRepo = prodRepo;
@@ -29,18 +29,12 @@ namespace Avocado.WEB.Controllers
 		}
 		private string GetToken()
 		{
-			string token = "";
-			//var claims = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value;
-			//if (claims != null)
-			//{
-			//	token = claims.FindFirst(ClaimTypes.Name).Value;
-			//}
 			if (User.Identity.IsAuthenticated)
 			{
-				token = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value ?? "";
+				Token = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value ?? "";
 			}
 			
-			return token;
+			return Token;
 		}
 		
 		public async Task<IActionResult> Index()
@@ -48,6 +42,7 @@ namespace Avocado.WEB.Controllers
 			return View(await _prodRepo.GetAllAsync(Common.Common.ProductApi,GetToken()));
 		}
 		[HttpGet]
+		[Authorize]
 		public async Task<IActionResult> Upsert(int? id)
 		{
 			IEnumerable<Category> categories = await _catRepo.GetAllAsync(Common.Common.CategoryApi);

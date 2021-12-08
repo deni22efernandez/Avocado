@@ -2,6 +2,7 @@
 using Avocado.API.Models;
 using Avocado.API.Models.Dtos;
 using Avocado.API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
