@@ -20,16 +20,33 @@ namespace Avocado.WEB.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IUserRepository _userRepo;
+		private readonly IProductRepository _prodRepo;
+		private readonly ICategoryRepository _categoryRepo;
 
-		public HomeController(ILogger<HomeController> logger, IUserRepository userRepo)
+		public HomeController(ILogger<HomeController> logger, IUserRepository userRepo, IProductRepository prodRepo, ICategoryRepository categoryRepo)
 		{
 			_logger = logger;
 			_userRepo = userRepo;
+			_prodRepo = prodRepo;
+			_categoryRepo = categoryRepo;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			HomeIndexVM homeIndexVM = new HomeIndexVM
+			{
+				Products = await _prodRepo.GetAllAsync(Common.Common.ProductApi, GetToken()),
+				Categories = await _categoryRepo.GetAllAsync(Common.Common.CategoryApi, GetToken())
+			};
+			return View(homeIndexVM);
+		}
+		public async Task<IActionResult> Details(int id)
+		{
+			return View(await _prodRepo.GetAsync(id,Common.Common.ProductApi, GetToken()));
+		}
+		private string GetToken()
+		{
+			return User.Identity.IsAuthenticated ? ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value : "";
 		}
 
 		[HttpGet]

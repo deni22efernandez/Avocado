@@ -20,7 +20,6 @@ namespace Avocado.WEB.Controllers
 		private readonly IProductRepository _prodRepo;
 		private readonly ICategoryRepository _catRepo;
 		private IWebHostEnvironment _hostEnvironment;
-		private string Token { get; set; } = "";
 		public ProductController(IProductRepository prodRepo, ICategoryRepository catRepo, IWebHostEnvironment hostEnvironment)
 		{
 			_prodRepo = prodRepo;
@@ -29,12 +28,7 @@ namespace Avocado.WEB.Controllers
 		}
 		private string GetToken()
 		{
-			if (User.Identity.IsAuthenticated)
-			{
-				Token = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value ?? "";
-			}
-			
-			return Token;
+			return User.Identity.IsAuthenticated ? ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value : "";			
 		}
 		
 		public async Task<IActionResult> Index()

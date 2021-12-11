@@ -36,7 +36,7 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpGet("{id:int}")]
-		[Authorize]
+		//[Authorize]
 		public async Task<IActionResult> GetAsync(int id)
 		{
 			var prod = await _unitOfWork.ProductRepository.GetAsync(x=>x.Id==id,includeProperties:"Category");

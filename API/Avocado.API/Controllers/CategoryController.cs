@@ -11,7 +11,7 @@ namespace Avocado.API.Controllers
 {
 	[Route("categories")]
 	[ApiController]
-	[Authorize(Roles = "Admin")]
+	
 	public class CategoryController : ControllerBase
 	{
 		private readonly IUnitOfWork _unit;
@@ -32,6 +32,7 @@ namespace Avocado.API.Controllers
 			return Ok(result.Map<IEnumerable<CategoryDto>>());
 		}
 		[HttpPost]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> PostAsync(CategoryCreateDto categoryCreateDto)
 		{
 			var obj = categoryCreateDto.Map<Category>();
