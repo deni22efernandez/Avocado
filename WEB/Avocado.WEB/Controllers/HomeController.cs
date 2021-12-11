@@ -40,8 +40,18 @@ namespace Avocado.WEB.Controllers
 		}
 		public async Task<IActionResult> Details(int id)
 		{
-			return View(await _prodRepo.GetAsync(id,Common.Common.ProductApi, GetToken()));
+			ShoppingCartVM shoppingCartVM = new ShoppingCartVM
+			{
+				Product = await _prodRepo.GetAsync(id, Common.Common.ProductApi, GetToken())
+
+			};
+			return View(shoppingCartVM);
 		}
+		//[HttpPost]
+		//public async Task<IActionResult> DetailsPost(ShoppingCartVM shoppingCartVM)
+		//{
+
+		//}
 
 		
 		public IActionResult Privacy()

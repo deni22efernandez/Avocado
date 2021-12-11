@@ -1,23 +1,21 @@
-﻿@model Avocado.WEB.Models.Product
+﻿@model Avocado.WEB.Models.ViewModels.ShoppingCartVM
 
 
 <div class="">
 	<form method="post">
-		<input type="hidden" asp-for="Id" />
+		<input type="hidden" asp-for="Product.Id" />
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 		<div class="container backgroundWhite">
 			<div class="card bg-transparent btn btn-outline-light">
 				<div class="card-header bg-transparent ml-0  btn-square">
-					
+
 					<div class="col-12 ">
 						<h1 class="text-muted" style="display:inline">@Model.Name</h1>
 						<h1 class="text-muted offset-8" style="display:inline">$@Model.Price</h1>
 					</div>
-						<div class="col-12 col-md-6  text-md-right">
-							
-						</div>
-					
-					
+					<div class="col-12 col-md-6  text-md-right">
+
+					</div>
 				</div>
 				<div class="card-body">
 					<div class="container rounded p-2">
@@ -26,24 +24,24 @@
 								<div class="row">
 
 									<div class="col-12">
-										<span class="badge badge-warning h3">@Model.Category.Name</span>
+										<span class="badge badge-warning h3">@Model.Product.Category.Name</span>
 										<h3 class="text-success"></h3>
 
-										<p class="text-secondary">@Model.Description</p>
+										<p class="text-secondary">@Model.Product.Description</p>
 
-										@*<div class="row py-4">
-											<div class="col-2"><label asp-for="ShoppingCartObj.Count" class="h3"></label></div>
-											<div class="col-10">
-												<input type="text" asp-for="ShoppingCartObj.Count" class="form-control rounded" height="40px;" />
-												<span asp-validation-for="ShoppingCartObj.Count" class="text-danger"></span>
+										<div class="row py-4">
+												<div class="col-2"><label asp-for="Count" class="h3"></label></div>
+												<div class="col-10">
+													<input type="text" asp-for="Count" class="form-control rounded" height="40px;" />
+													<span asp-validation-for="Count" class="text-danger"></span>
+												</div>
 											</div>
-										</div>*@
 									</div>
 
 								</div>
 							</div>
 							<div class="col-12 col-lg-4 p-1 text-center">
-								<img src="~/images/@Model.ImgUri" width="100%" class="rounded" />
+								<img src="~/images/@Model.Product.ImgUri" width="100%" class="rounded" />
 							</div>
 
 

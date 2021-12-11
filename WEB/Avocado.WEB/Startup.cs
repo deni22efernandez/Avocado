@@ -40,6 +40,7 @@ namespace Avocado.WEB
 					x.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 					x.SlidingExpiration = true;
 				});
+			services.AddSession();
 			services.AddControllersWithViews();
 		}
 
