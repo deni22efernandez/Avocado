@@ -4,7 +4,6 @@
 }
 
 <div class="text-center">
-	<h1 class="display-4">Avocado</h1>
 	<div class="row">
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
@@ -16,17 +15,17 @@
 					{
 						foreach (var items in Model.Products.Where(x => x.CategoryId == item.Id))
 						{
-							<div class="card  mb-3">
-								<div class="card-header btn btn-outline-danger  border-danger">@items.Name</div>
-								<div class="card-body text-success btn btn-outline-light">
+							<div class="card border-success mb-3">
+								<div class="card-header text-danger">@items.Name</div>
+								<div class="card-body text-danger btn btn-outline-light bg-transparent">
 									
 										<img src="~/images/@items.ImgUri" class="img-fluid rounded-start" alt="...">
 									
 								</div>
-								<div class="card-footer btn btn-outline-success border-success">
+								<div class="card-footer">
 									<div>
 										<span>$@items.Price</span>									
-										<a asp-action="Details" asp-route-id="@items.Id" class="btn btn-success offset-8">Details</a>
+										<a asp-action="Details" asp-route-id="@items.Id" class="btn btn-outline-success offset-8">Details</a>
 									</div>
 									
 								</div>
