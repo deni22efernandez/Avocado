@@ -61,12 +61,8 @@ namespace Avocado.WEB.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				IList<ShoppingCart> cart = new List<ShoppingCart>();
-				if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-					HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
-				{
-					cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart");
-				}
+				IList<ShoppingCart> cart = new List<ShoppingCart>();				
+				cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? default;
 				ShoppingCart newCart = new ShoppingCart
 				{
 					Count = shoppingCartVM.Count,
@@ -90,7 +86,7 @@ namespace Avocado.WEB.Controllers
 				cart = cart.Count() > 0 ? cart : null;
 				HttpContext.Session.Set<IEnumerable<ShoppingCart>>("sessionCart", cart);
 			}
-
+			//item removed successfully
 			return RedirectToAction(nameof(Index));
 		}
 

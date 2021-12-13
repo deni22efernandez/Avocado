@@ -57,11 +57,8 @@ namespace Avocado.WEB.Controllers
 			if (ModelState.IsValid)
 			{
 				user.Role = "customer";
-				if (await _userRepo.PostAsync(user, Common.Common.UserApi + "register"))
-				{
-					return RedirectToAction(nameof(Index));
-				}
-				return RedirectToAction(nameof(Login));//user already exists
+				string action = await _userRepo.PostAsync(user, Common.Common.UserApi + "register") ? "Index" : "Login";
+				return RedirectToAction(nameof(action));
 			}
 			return View();
 		}
