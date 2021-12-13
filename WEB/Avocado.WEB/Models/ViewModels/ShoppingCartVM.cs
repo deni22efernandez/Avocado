@@ -8,7 +8,8 @@ namespace Avocado.WEB.Models.ViewModels
 	public class ShoppingCartVM
 	{
 		public Product Product { get; set; }
-		public User User { get; set; }
+		public bool ExistsInCart { get; set; } = false;
 		public int Count { get; set; }
+
 	}
 }

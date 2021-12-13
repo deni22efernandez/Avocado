@@ -18,11 +18,11 @@ namespace Avocado.WEB.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-		
+
 		private readonly IProductRepository _prodRepo;
 		private readonly ICategoryRepository _categoryRepo;
 
-		public HomeController(ILogger<HomeController> logger,  IProductRepository prodRepo, ICategoryRepository categoryRepo)
+		public HomeController(ILogger<HomeController> logger, IProductRepository prodRepo, ICategoryRepository categoryRepo)
 		{
 			_logger = logger;
 			_prodRepo = prodRepo;
@@ -49,8 +49,10 @@ namespace Avocado.WEB.Controllers
 			shoppingCartVM = new ShoppingCartVM
 			{
 				Product = await _prodRepo.GetAsync(id, Common.Common.ProductApi, GetToken())
-
 			};
+			IEnumerable<ShoppingCart> cart = new List<ShoppingCart>();
+			cart = HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") ?? default;
+			shoppingCartVM.ExistsInCart = cart != null ? cart.Any(x => x.ProductId == id) ? true : false : false;
 			return View(shoppingCartVM);
 		}
 		[HttpPost]
@@ -77,6 +79,20 @@ namespace Avocado.WEB.Controllers
 			return View(shoppingCartVM);
 		}
 
+		public IActionResult Remove(int id)
+		{
+			List<ShoppingCart> cart = new List<ShoppingCart>();
+			cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? default;
+			if (cart != null)
+			{
+				cart = cart.Any(x => x.ProductId == id) ? cart.Where(x => x.ProductId != id).ToList() : cart;
+				HttpContext.Session.Clear();
+				cart = cart.Count() > 0 ? cart : null;
+				HttpContext.Session.Set<IEnumerable<ShoppingCart>>("sessionCart", cart);
+			}
+
+			return RedirectToAction(nameof(Index));
+		}
 
 		public IActionResult Privacy()
 		{
