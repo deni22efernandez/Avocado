@@ -4,13 +4,18 @@
 <div class="py-3">
 	<form method="post">
 		<input type="hidden" asp-for="Product.Id" />
+		<input type="hidden" asp-for="Product.Name" />
+		<input type="hidden" asp-for="Product.Category.Name" />
+		<input type="hidden" asp-for="Product.Price" />
+		<input type="hidden" asp-for="Product.Description" />
+		<input type="hidden" asp-for="Product.ImgUri" />
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 		<div class="container backgroundWhite">
 			<div class="card border-success mb-3 rounded">
 				<div class="card-header bg-success bg-opacity-75 ml-0  btn-square">
 					<div class="col-12 ">
-						<h3 class="text-light" style="display:inline">@Model.Product.Name.ToUpperInvariant()</h3>
-						<h3 class="text-light offset-10" style="display:inline">$@Model.Product.Price</h3>
+						<label class="h3 text-light" asp-for="Product.Name" style="display:inline">@Model.Product.Name</label>
+						<label class="h3 text-light offset-10" style="display:inline">@Model.Product.Price</label>
 					</div>
 					<div class="col-12 col-md-6  text-md-right">
 					</div>
@@ -21,8 +26,7 @@
 							<div class="col-12 col-lg-8">
 								<div class="row">
 									<div class="col-12">
-										<span class="">@Model.Product.Category.Name</span>
-										<h3 class="text-success"></h3>
+										<label class="">@Model.Product.Category.Name</label>
 
 										<p class="text-secondary">@Model.Product.Description</p>
 
@@ -32,10 +36,10 @@
 												<input type="number" asp-for="Count" class="form-control rounded" />
 												<span asp-validation-for="Count" class="text-danger"></span>
 											</div>
-												<div class="col-2">
-													
-												</div>
+											<div class="col-2">
+
 											</div>
+										</div>
 									</div>
 								</div>
 							</div>

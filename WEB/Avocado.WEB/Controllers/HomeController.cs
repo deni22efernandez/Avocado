@@ -28,6 +28,8 @@ namespace Avocado.WEB.Controllers
 			_prodRepo = prodRepo;
 			_categoryRepo = categoryRepo;
 		}
+		[BindProperty]
+		public ShoppingCartVM shoppingCartVM { get; set; }
 		private string GetToken()
 		{
 			return User.Identity.IsAuthenticated ? ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value : "";
@@ -44,7 +46,7 @@ namespace Avocado.WEB.Controllers
 		}
 		public async Task<IActionResult> Details(int id)
 		{
-			ShoppingCartVM shoppingCartVM = new ShoppingCartVM
+			shoppingCartVM = new ShoppingCartVM
 			{
 				Product = await _prodRepo.GetAsync(id, Common.Common.ProductApi, GetToken())
 
@@ -53,12 +55,12 @@ namespace Avocado.WEB.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Details(ShoppingCartVM shoppingCartVM)
+		public async Task<IActionResult> Details()
 		{
 			if (ModelState.IsValid)
 			{
 				IList<ShoppingCart> cart = new List<ShoppingCart>();
-				if(HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
+				if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
 					HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 				{
 					cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart");
