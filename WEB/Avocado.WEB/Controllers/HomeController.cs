@@ -60,9 +60,8 @@ namespace Avocado.WEB.Controllers
 		public async Task<IActionResult> Details()
 		{
 			if (ModelState.IsValid)
-			{
-				IList<ShoppingCart> cart = new List<ShoppingCart>();				
-				cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? default;
+			{							
+				var cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? new List<ShoppingCart>();
 				ShoppingCart newCart = new ShoppingCart
 				{
 					Count = shoppingCartVM.Count,

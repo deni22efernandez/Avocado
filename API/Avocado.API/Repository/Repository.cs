@@ -34,7 +34,18 @@ namespace Avocado.API.Repository
 				}
 			}
 			
-			return await query.AsNoTracking().FirstOrDefaultAsync();
+			return await query.AsNoTracking().FirstOrDefaultAsync();	
+		}
+
+		
+		public async Task AddAsync(T entity)
+		{
+			await _dbSet.AddAsync(entity);					
+		}
+		public async Task DeleteAsync(int id)
+		{
+			var entityFromDb = await _dbSet.FindAsync(id);
+			_dbSet.Remove(entityFromDb);
 		}
 
 		public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null)
@@ -51,17 +62,8 @@ namespace Avocado.API.Repository
 					query = query.Include(item);
 				}
 			}
-			return await query.AsNoTracking().ToListAsync();
 
-		}
-		public async Task AddAsync(T entity)
-		{
-			await _dbSet.AddAsync(entity);					
-		}
-		public async Task DeleteAsync(int id)
-		{
-			var entityFromDb = await _dbSet.FindAsync(id);
-			_dbSet.Remove(entityFromDb);
+			return await query.AsNoTracking().ToListAsync();
 		}
 	}
 }

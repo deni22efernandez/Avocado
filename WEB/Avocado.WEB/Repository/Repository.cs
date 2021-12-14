@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -52,6 +53,7 @@ namespace Avocado.WEB.Repository
 			}
 			return null;
 		}
+		
 		public async Task<bool> PostAsync(T entity, string uri, string token = null)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Post, uri);
