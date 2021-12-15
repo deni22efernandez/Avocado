@@ -15,21 +15,23 @@ namespace Avocado.API.Controllers
 	[Route("users")]
 	[ApiController]
 	[AllowAnonymous]
-	public class UserController : ControllerBase
+	public class UserController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		public UserController(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 		}
+		
 		[HttpPost("register")]
 		public async Task<IActionResult> RegisterAsync([FromBody]RegistrationDto registrationModel)
 		{
 			if (_unitOfWork.UserRepository.IsUnique(registrationModel.UserName))
 			{
 				await _unitOfWork.UserRepository.AddAsync(registrationModel.Map<User>());
-				await _unitOfWork.SaveAsync();
-				return Ok();
+				//await _unitOfWork.SaveAsync();
+				
+				return Json("susccessfull registration!");
 			}
 			return BadRequest("user already exists!");
 		}

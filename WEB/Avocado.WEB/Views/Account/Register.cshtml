@@ -9,55 +9,55 @@
 <hr />
 <div class="row">
 	<div class="col-md-4">
-		<form asp-action="Register">
+		<form asp-action="Register" id="form">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
 				<label asp-for="UserName" class="control-label"></label>
-				<input asp-for="UserName" class="form-control" />
+				<input asp-for="UserName" id="userName" class="form-control" />
 				<span asp-validation-for="UserName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Password" class="control-label"></label>
-				<input type="password" asp-for="Password" class="form-control" />
+				<label asp-for="Password"  class="control-label"></label>
+				<input type="password" asp-for="Password" id="password" class="form-control" />
 				<span asp-validation-for="Password" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="Name" class="control-label"></label>
-				<input asp-for="Name" class="form-control" />
+				<input asp-for="Name" id="Name" class="form-control" />
 				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="LastName" class="control-label"></label>
-				<input asp-for="LastName" class="form-control" />
+				<input asp-for="LastName" id="LastName" class="form-control" />
 				<span asp-validation-for="LastName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="PhoneNumber" class="control-label"></label>
-				<input asp-for="PhoneNumber" class="form-control" />
+				<input asp-for="PhoneNumber" id="PhoneNumber" class="form-control" />
 				<span asp-validation-for="PhoneNumber" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="PostalCode" class="control-label"></label>
-				<input asp-for="PostalCode" class="form-control" />
+				<input asp-for="PostalCode" id="PC" class="form-control" />
 				<span asp-validation-for="PostalCode" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="StreetAddress" class="control-label"></label>
-				<input asp-for="StreetAddress" class="form-control" />
+				<input asp-for="StreetAddress" id="address" class="form-control" />
 				<span asp-validation-for="StreetAddress" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="City" class="control-label"></label>
-				<input asp-for="City" class="form-control" />
+				<input asp-for="City" id="City" class="form-control" />
 				<span asp-validation-for="City" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="State" class="control-label"></label>
-				<input asp-for="State" class="form-control" />
+				<input asp-for="State" id="State" class="form-control" />
 				<span asp-validation-for="State" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<input type="submit" value="Create" class="btn btn-primary" />
+				<input type="submit" value="Create" id="" class="btn btn-primary" />
 			</div>
 		</form>
 	</div>
@@ -68,5 +68,85 @@
 </div>
 
 @section Scripts {
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+<script>
+	class Form{
+		constructor() {
+			this.UserName;
+			this.Password;
+			this.Name;
+			this.LastName;
+			this.PhoneNumber;
+			this.PostalCode;
+			this.StreetAddress;
+			this.City;
+			this.State
+		}
+	}
+	document.addEventListener('DOMContentLoaded', (e) => {
+		
+		let form = document.getElementById('form');
+		let elements = form.elements;
+		
+		let formulario = new Form();		
+
+		form.addEventListener('submit', (e) => {
+
+			e.preventDefault();
+			e.stopPropagation();
+
+			formulario.userName = elements.userName.value;
+			formulario.password = elements.password.value;
+			formulario.Name = elements.Name.value;
+			formulario.LastName = elements.LastName.value;
+			formulario.StreetAddress = elements.address.value;
+			formulario.PostalCode = elements.PC.valueAsNumber;
+			formulario.PhoneNumber = elements.PhoneNumber.value;			
+			formulario.City = elements.City.value;
+			formulario.State = elements.State.value;
+			
+			if (validate()) {
+				postForm(formulario);
+			}
+			
+			console.log(formulario);
+		});
+
+		function validate() {
+
+			if (form.userName.value === "") {
+				alert('Username is required!');
+				return false;
+			}
+			if (form.password.value === "") {
+				alert('Password is required!');
+				return false;
+			}
+			else if (form.password.value.length <= 5) {
+				alert('Password is not long enough!');
+				return false;
+			}
+			if (form.PhoneNumber.value != "" && !parseInt(form.PhoneNumber.value)) {
+				alert('Only numbers in phone number!');
+				return false;
+			}
+			return true;		
+		}		
+		
+	});
+
+	function postForm(formulario) {
+		fetch('https://localhost:44363/users/register', {
+			headers: {
+				'Content-type': 'application/json'
+			},
+			method: 'POST',
+			body: JSON.stringify(formulario)		
+		}).then((response) =>
+			response.json())
+			.then((json) =>
+				alert(json));
+		window.location.href="https://localhost:44348/account/login";
+	}	
+</script>
 }
