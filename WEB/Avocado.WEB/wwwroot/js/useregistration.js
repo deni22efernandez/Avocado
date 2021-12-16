@@ -70,9 +70,18 @@ function postForm(formulario) {
 		},
 		method: 'POST',
 		body: JSON.stringify(formulario)
-	}).then((response) =>
-		response.json())
-		.then((json) =>
-			alert(json));
-	window.location.href = "https://localhost:44348/account/login";
+	}).then((response) => {
+		response.json();
+		if (response.status === 200) {
+			alert('successfull registration');
+			window.location.href = "https://localhost:44348/account/login";
+		} else {
+			alert('username already exists!');
+		}
+
+	})
+
+
+
+
 }

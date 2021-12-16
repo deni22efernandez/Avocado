@@ -20,15 +20,16 @@ namespace Avocado.API.Controllers
 		}
 		
 		[HttpPost("register")]
-		public async Task<JsonResult> RegisterAsync([FromBody]RegistrationDto registrationModel)
+		public async Task<IActionResult> RegisterAsync([FromBody]RegistrationDto registrationModel)
 		{			
 			if (_unitOfWork.UserRepository.IsUnique(registrationModel.UserName))
 			{
 				await _unitOfWork.UserRepository.AddAsync(registrationModel.Map<User>());
 				//await _unitOfWork.SaveAsync();
-				return new JsonResult("susccessfull registration!");
+				JsonResult result = new JsonResult("ok");
+				return Ok(result);
 			}
-			return new JsonResult("user already exists!");//
+			return BadRequest();//
 		}
 		[HttpPost("authenticate")]
 		public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginModel)
