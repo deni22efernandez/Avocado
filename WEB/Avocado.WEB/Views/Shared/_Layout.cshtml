@@ -24,15 +24,19 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" >
-					<ul class="navbar-nav flex-grow-1" >
+					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" href="">Category</a>
+							<a class="nav-link text-dark" href="~/html/CategoryCreate.html">Category</a>
+						</li>
 						@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-							 _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+							_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 						{
 							var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
-							
+
 							<li class="nav-item offset-10">
 								<a class="nav-link" asp-controller="Cart" asp-action="Index">
 									<i class="fas fa-shopping-cart">&nbsp;(@cart)</i>

@@ -2,7 +2,6 @@
 using Avocado.API.Models;
 using Avocado.API.Models.Dtos;
 using Avocado.API.Repository.IRepository;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace Avocado.API.Controllers
 {
 	[Route("categories")]
 	[ApiController]
-	
+
 	public class CategoryController : ControllerBase
 	{
 		private readonly IUnitOfWork _unit;
@@ -22,7 +21,7 @@ namespace Avocado.API.Controllers
 		[HttpGet("{id:int}")]
 		public async Task<IActionResult> GetAsync(int id)
 		{
-			var result = await _unit.CategoryRepository.GetAsync(x=>x.Id==id);
+			var result = await _unit.CategoryRepository.GetAsync(x => x.Id == id);
 			return Ok(result.Map<CategoryDto>());
 		}
 		[HttpGet]
@@ -32,13 +31,15 @@ namespace Avocado.API.Controllers
 			return Ok(result.Map<IEnumerable<CategoryDto>>());
 		}
 		[HttpPost]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> PostAsync(CategoryCreateDto categoryCreateDto)
+		//[Authorize(Roles = "Admin")]
+		public async Task<JsonResult> PostAsync(CategoryCreateDto categoryCreateDto)
 		{
 			var obj = categoryCreateDto.Map<Category>();
 			await _unit.CategoryRepository.AddAsync(obj);
-			await _unit.SaveAsync();
-			return Created("GetAsync", obj);
+			//await _unit.SaveAsync();
+			//return Created("GetAsync", obj);
+			JsonResult result = new JsonResult(obj);
+			return result;
 		}
 	}
 }
