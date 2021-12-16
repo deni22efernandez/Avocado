@@ -3,11 +3,7 @@ using Avocado.API.Models;
 using Avocado.API.Models.Dtos.UserDtos;
 using Avocado.API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Avocado.API.Controllers
@@ -15,7 +11,7 @@ namespace Avocado.API.Controllers
 	[Route("users")]
 	[ApiController]
 	[AllowAnonymous]
-	public class UserController : Controller
+	public class UserController : ControllerBase
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		public UserController(IUnitOfWork unitOfWork)
@@ -24,16 +20,15 @@ namespace Avocado.API.Controllers
 		}
 		
 		[HttpPost("register")]
-		public async Task<IActionResult> RegisterAsync([FromBody]RegistrationDto registrationModel)
-		{
+		public async Task<JsonResult> RegisterAsync([FromBody]RegistrationDto registrationModel)
+		{			
 			if (_unitOfWork.UserRepository.IsUnique(registrationModel.UserName))
 			{
 				await _unitOfWork.UserRepository.AddAsync(registrationModel.Map<User>());
 				//await _unitOfWork.SaveAsync();
-				
-				return Json("susccessfull registration!");
+				return new JsonResult("susccessfull registration!");
 			}
-			return BadRequest("user already exists!");
+			return new JsonResult("user already exists!");//
 		}
 		[HttpPost("authenticate")]
 		public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginModel)
