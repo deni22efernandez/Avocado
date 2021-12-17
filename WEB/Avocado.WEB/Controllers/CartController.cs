@@ -68,19 +68,19 @@ namespace Avocado.WEB.Controllers
 				OrderHeader orderHeader = new OrderHeader()
 				{
 					OrderDate = DateTime.Now,
-					OrderStatus="pending",
-					 OrderTotal=orderTotal,
-					  User=summaryVM.Customer,
-					   Email=summaryVM.Customer.UserName,
-					    Name=summaryVM.Customer.Name,
-						LastName=summaryVM.Customer.LastName,
-						 StreetAddress=summaryVM.Customer.StreetAddress,
-						  City=summaryVM.Customer.City,
-						   PostalCode=summaryVM.Customer.PostalCode,
-						    State=summaryVM.Customer.State,
-							PhoneNumber=summaryVM.Customer.PhoneNumber
+					OrderStatus = "pending",
+					OrderTotal = orderTotal,
+					User = summaryVM.Customer,
+					Email = summaryVM.Customer.UserName,
+					Name = summaryVM.Customer.Name,
+					LastName = summaryVM.Customer.LastName,
+					StreetAddress = summaryVM.Customer.StreetAddress,
+					City = summaryVM.Customer.City,
+					PostalCode = summaryVM.Customer.PostalCode,
+					State = summaryVM.Customer.State,
+					PhoneNumber = summaryVM.Customer.PhoneNumber
 
-				}
+				};
 			}
 			return View();
 		}
