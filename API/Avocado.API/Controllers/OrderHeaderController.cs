@@ -23,7 +23,7 @@ namespace Avocado.API.Controllers
 		{
 			_unitOfWork = unitOfWork;
 		}
-		[HttpGet]
+		[HttpGet("{id:int}")]
 		public async Task<IActionResult> GetAsync(int id)
 		{
 			var orderHeader = await _unitOfWork.OrderHeaderRepository.GetAsync(x => x.Id == id);
