@@ -54,6 +54,38 @@ namespace Avocado.WEB.Controllers
 			return View(summaryVM);
 		}
 		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Summary(SummaryVM summaryVM)
+		{
+			if (ModelState.IsValid)
+			{
+				double orderTotal = 0;
+				foreach (var item in summaryVM.cartItems)
+				{
+					orderTotal += item.Count * item.Product.Price;
+				}
+
+				OrderHeader orderHeader = new OrderHeader()
+				{
+					OrderDate = DateTime.Now,
+					OrderStatus="pending",
+					 OrderTotal=orderTotal,
+					  User=summaryVM.Customer,
+					   Email=summaryVM.Customer.UserName,
+					    Name=summaryVM.Customer.Name,
+						LastName=summaryVM.Customer.LastName,
+						 StreetAddress=summaryVM.Customer.StreetAddress,
+						  City=summaryVM.Customer.City,
+						   PostalCode=summaryVM.Customer.PostalCode,
+						    State=summaryVM.Customer.State,
+							PhoneNumber=summaryVM.Customer.PhoneNumber
+
+				}
+			}
+			return View();
+		}
+
+		[HttpPost]
 		public IActionResult UpdateCart(List<ShoppingCart> carts)
 		{
 			HttpContext.Session.Get<List<ShoppingCart>>("sessionCart").Clear();

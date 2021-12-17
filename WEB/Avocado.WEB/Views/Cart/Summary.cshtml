@@ -1,4 +1,6 @@
 ﻿@model Avocado.WEB.Models.ViewModels.SummaryVM
+@using Microsoft.Extensions.Options
+@inject Avocado.WEB.Common.StripeSettings stripe
 
 <form method="post" id="payment-form">
 	<br />
@@ -113,14 +115,26 @@
 
 									</ul>
 								</div>
+								<div class="col-12 col-md-4">
 
-								<div class="col-12">
-									<div class="container">
-										<div id="dropin-container"></div>
-										<input id="nonce" name="payment_method_nonce" type="hidden" />
-									</div>
+									@{
+										var OrderTotalForStripe = orderTotal * 100;
+									}
+									
+										<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+												data-key="@stripe.PublishableKey"
+												data-amount="@OrderTotalForStripe"
+												data-name="Avocado"
+												data-label="Place Order"
+												data-description=""
+												data-locale="auto"
+												data-allow-remember-me="false"
+												data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+										</script>
+										<script>
+											document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+										</script>								
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -128,8 +142,7 @@
 				<div class="card-footer">
 					<div class="row">
 						<div class="col-12 col-md-5 offset-md-7">
-
-							<button class="btn btn-success form-control" onclick="return validateInput()" id="submit-button">Submit Order</button>
+							<button type="submit" class="btn btn-success form-control"  id="submit-button">Submit Order</button>
 
 						</div>
 					</div>
@@ -142,28 +155,7 @@
 
 @section Scripts{
 	<partial name="_ValidationScriptsPartial" />
-	<script src="https://js.braintreegateway.com/web/dropin/1.22.1/js/dropin.min.js"></script>
 	<script>
-        var client_token = "@ViewBag.ClientToken";
-        var form = document.querySelector('#payment-form');
-
-        braintree.dropin.create({
-            authorization: client_token,
-              container: '#dropin-container'
-            }, function (createErr, instance) {
-                    form.addEventListener('submit', function () {
-                        event.preventDefault();
-
-                        //Add the nonce to the form and submit
-                                instance.requestPaymentMethod(function (err, payload) {
-                                    // Submit payload.nonce to your server
-                                    document.querySelector('#nonce').value = payload.nonce;
-                                    form.submit();
-                                });
-                            });
-        });
-
-
         function validateInput() {
             var app_name = document.getElementById("ApplicationUser_FullName").value;
             var app_phone = document.getElementById("ApplicationUser_PhoneNumber").value;

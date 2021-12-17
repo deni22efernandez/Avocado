@@ -1,3 +1,4 @@
+using Avocado.WEB.Common;
 using Avocado.WEB.Repository;
 using Avocado.WEB.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -50,6 +51,7 @@ namespace Avocado.WEB
 			});
 			//services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 			services.AddHttpContextAccessor();
+			services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
 			services.AddControllersWithViews();
 		}
 
