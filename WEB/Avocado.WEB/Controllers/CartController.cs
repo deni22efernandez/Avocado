@@ -38,5 +38,32 @@ namespace Avocado.WEB.Controllers
 
 			return View(carts);
 		}
+		[HttpPost]
+		public IActionResult UpdateCart(List<ShoppingCart> carts)
+		{
+			HttpContext.Session.Get<List<ShoppingCart>>("sessionCart").Clear();
+			HttpContext.Session.Set<List<ShoppingCart>>("sessionCart", carts);
+			return RedirectToAction(nameof(Index));
+		}
+		public IActionResult Remove(int id)
+		{
+			List<ShoppingCart> sessionCarts = new List<ShoppingCart>();
+			sessionCarts = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? default;
+			if (sessionCarts.Count > 0)
+			{
+				var cartToDelete = sessionCarts.FirstOrDefault(x=>x.ProductId == id);
+				sessionCarts.Remove(cartToDelete);
+				HttpContext.Session.Set<List<ShoppingCart>>("sessionCart", sessionCarts);
+				
+			}
+			return RedirectToAction(nameof(Index));
+		}
+		public IActionResult Clear()
+		{
+			HttpContext.Session.Clear();
+			return RedirectToAction("Index", "Home");
+		}
 	}
+
+	
 }

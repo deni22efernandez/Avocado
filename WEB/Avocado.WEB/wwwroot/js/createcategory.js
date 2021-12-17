@@ -24,17 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function Create(category) {
-    debugger;
-    return fetch("https://localhost:44363/categories/", {
+       return fetch("https://localhost:44363/categories/", {
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify(category),
         method: 'POST'
-    }).then((response) =>
-        response.json()
-    ).then((json) =>
-        alert(`Success: ${JSON.stringify(json)}  was created`))
+       }).then((response) => {
+           response.json()
+       }).then((json) =>
+        alert(`Success: ${JSON.stringify(json)}  was created`)
+    ).catch(console.log.bind(console));
 }
 
 function ValidateInput() {
