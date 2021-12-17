@@ -18,6 +18,12 @@ namespace Avocado.API.Controllers
 		{
 			_unitOfWork = unitOfWork;
 		}
+		[HttpGet("{id:int}")]
+		public async Task<IActionResult> GetAsync(int id)
+		{
+			var user = await _unitOfWork.UserRepository.GetAsync(x => x.Id == id);
+			return Ok(user) ?? null;
+		}
 		
 		[HttpPost("register")]
 		public async Task<IActionResult> RegisterAsync([FromBody]RegistrationDto registrationModel)

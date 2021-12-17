@@ -8,7 +8,7 @@ namespace Avocado.WEB.Models.ViewModels
 	public class SummaryVM
 	{
 		public User Customer { get; set; }
-		public IEnumerable<ShoppingCart> cartItems { get; set; }
+		public IList<ShoppingCart> cartItems { get; set; }
 
 	}
 }

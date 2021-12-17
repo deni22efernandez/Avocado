@@ -51,7 +51,7 @@ namespace Avocado.WEB.Controllers
 				Customer = user
 			};
 			
-			return View();
+			return View(summaryVM);
 		}
 		[HttpPost]
 		public IActionResult UpdateCart(List<ShoppingCart> carts)
