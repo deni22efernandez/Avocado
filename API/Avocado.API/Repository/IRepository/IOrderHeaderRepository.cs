@@ -8,6 +8,6 @@ namespace Avocado.API.Repository.IRepository
 {
 	public interface IOrderHeaderRepository:IRepository<OrderHeader>
 	{
-		void Update(OrderHeader orderHeader);
+		Task UpdateAsync(OrderHeader orderHeader);
 	}
 }

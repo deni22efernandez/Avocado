@@ -78,9 +78,10 @@ namespace Avocado.WEB.Controllers
 					City = summaryVM.Customer.City,
 					PostalCode = summaryVM.Customer.PostalCode,
 					State = summaryVM.Customer.State,
-					PhoneNumber = summaryVM.Customer.PhoneNumber
+					PhoneNumber = summaryVM.Customer.PhoneNumber				
 
 				};
+				
 			}
 			return View();
 		}

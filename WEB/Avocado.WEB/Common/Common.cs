@@ -11,5 +11,7 @@ namespace Avocado.WEB.Common
 		public static string ProductApi = BaseUri + "/products/";
 		public static string CategoryApi = BaseUri + "/categories/";
 		public static string UserApi = BaseUri + "/users/";
+		public static string OrderHeaderApi = BaseUri + "/orderHeaders/";
+		public static string OrderDetailApi = BaseUri + "/orderDetails/";
 	}
 }
