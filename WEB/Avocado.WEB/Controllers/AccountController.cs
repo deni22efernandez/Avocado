@@ -27,7 +27,7 @@ namespace Avocado.WEB.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> LoginAsync(LoginModel loginModel)
+		public async Task<IActionResult> LoginAsync(LoginModel loginModel,string returnUrl="")
 		{
 			var user = await _userRepo.LoginAsync(loginModel);
 			if (user != null)
@@ -39,7 +39,14 @@ namespace Avocado.WEB.Controllers
 				claimIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
 				ClaimsPrincipal principal = new ClaimsPrincipal(claimIdentity);
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-				return RedirectToAction(nameof(Index));
+				if (!string.IsNullOrEmpty(returnUrl))
+				{
+					if (Url.IsLocalUrl(returnUrl))
+					{
+						return LocalRedirect(returnUrl);
+					}
+				}
+				return RedirectToAction("Index", "Home");
 			}
 			ModelState.AddModelError("error", "incorrect username or password");
 			return View(loginModel);
@@ -67,7 +74,7 @@ namespace Avocado.WEB.Controllers
 		public async Task<IActionResult> LogoutAsync()
 		{
 			await HttpContext.SignOutAsync();
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction("Index", "Home");
 		}
 		public IActionResult Index()
 		{

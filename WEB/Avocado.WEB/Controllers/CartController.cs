@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Avocado.WEB.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	public class CartController : Controller
 	{
 		private readonly IUserRepository _userRepo;
@@ -33,10 +33,25 @@ namespace Avocado.WEB.Controllers
 				{
 					item.Product = products.Where(x => x.Id == item.ProductId).FirstOrDefault();
 				}
-
 			}
-
 			return View(carts);
+		}
+		public async Task<IActionResult> Summary()
+		{
+			var userId = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+			var user = await _userRepo.GetAsync(userId, Common.Common.UserApi);
+			var carts = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart");
+			foreach (var item in carts)
+			{
+				item.Product = await _productRepo.GetAsync(item.ProductId, Common.Common.ProductApi);
+			}
+			SummaryVM summaryVM = new SummaryVM()
+			{
+				cartItems = carts,
+				Customer = user
+			};
+			
+			return View();
 		}
 		[HttpPost]
 		public IActionResult UpdateCart(List<ShoppingCart> carts)

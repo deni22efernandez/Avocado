@@ -41,6 +41,8 @@
 							@for (int i = 0; i < Model.Count(); i++)
 							{
 								<input hidden asp-for="@Model[i].Product.Id" />
+								<input hidden asp-for="@Model[i].Product.CategoryId" />
+								<input hidden asp-for="@Model[i].Product.Price" />
 								<input hidden asp-for="@Model[i].ProductId" />
 								<div class="row text-center">
 									@if (Model[i].Product.ImgUri != null)
@@ -92,9 +94,9 @@
 										   class="btn btn-info form-control" />
 								</div>*@
 								<div class="col-6 col-md-3 offset-9">
-									<button type="submit" class="btn btn-success form-control rounded">
+									<a asp-action="Summary" class="btn btn-success form-control rounded">
 										<span>Continue</span>
-									</button>
+									</a>
 								</div>
 							</div>
 						</div>
