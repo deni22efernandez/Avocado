@@ -40,6 +40,30 @@ namespace Avocado.API.Controllers
 			}
 			return NotFound();
 		}
+		[HttpPost]
+		public async Task<IActionResult> PostAsync([FromBody]OrderDetailsCreate orderDetailsCreate)
+		{
+			if (orderDetailsCreate != null)
+			{
+				var created = orderDetailsCreate.Map<OrderDetail>();
+				await _unitOfWork.OrderDetailRepository.AddAsync(created);
+				await _unitOfWork.SaveAsync();
+				return Created("Get", created);
+			}
+			return BadRequest();
+		}
+		[HttpPut]
+		public async Task<IActionResult> PutAsync([FromBody]OrderDetailsUpdate orderDetailsUpdate)
+		{
+			if (orderDetailsUpdate != null)
+			{
+				await _unitOfWork.OrderDetailRepository.UpdateAsync(orderDetailsUpdate.Map<OrderDetail>());
+				await _unitOfWork.SaveAsync();
+				return NoContent();
+			}
+			return BadRequest();
+		}
+
 
 	}
 }

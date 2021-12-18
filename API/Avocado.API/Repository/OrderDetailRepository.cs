@@ -1,6 +1,7 @@
 ﻿using Avocado.API.DataAccess;
 using Avocado.API.Models;
 using Avocado.API.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,16 @@ namespace Avocado.API.Repository
 		{
 			_context = context;
 		}
-		public void Update(OrderDetail orderDetail)
+		public async Task UpdateAsync(OrderDetail orderDetail)
 		{
-			throw new NotImplementedException();
+			var detailFromDb = await _context.OrderDetails.FirstOrDefaultAsync(x => x.Id == orderDetail.Id);
+			if (detailFromDb != null)
+			{
+				detailFromDb.OrderHeaderId = orderDetail.OrderHeaderId;
+				detailFromDb.ProductId = orderDetail.ProductId;
+				detailFromDb.Count = orderDetail.Count;
+			}
+
 		}
 	}
 }
