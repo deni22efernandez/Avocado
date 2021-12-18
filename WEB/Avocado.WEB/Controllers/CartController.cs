@@ -4,6 +4,7 @@ using Avocado.WEB.Repository.IRepository;
 using Avocado.WEB.SessionXtension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,17 @@ namespace Avocado.WEB.Controllers
 	{
 		private readonly IUserRepository _userRepo;
 		private readonly IProductRepository _productRepo;
-		public CartController(IUserRepository userRepo, IProductRepository productRepo)
+		private readonly IOrderHeaderRepository _orderHeaderRepo;
+		private readonly IOrderDetailRepository _orderDetailsRepo;
+		public CartController(IUserRepository userRepo,
+			IProductRepository productRepo,
+			IOrderHeaderRepository orderHeaderRepo,
+			IOrderDetailRepository orderDetailsRepo)
 		{
 			_userRepo = userRepo;
 			_productRepo = productRepo;
+			_orderHeaderRepo = orderHeaderRepo;
+			_orderDetailsRepo = orderDetailsRepo;
 		}
 		public async Task<IActionResult> Index()
 		{
@@ -50,12 +58,12 @@ namespace Avocado.WEB.Controllers
 				cartItems = carts,
 				Customer = user
 			};
-			
+
 			return View(summaryVM);
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Summary(SummaryVM summaryVM)
+		public async Task<IActionResult> Summary(SummaryVM summaryVM)
 		{
 			if (ModelState.IsValid)
 			{
@@ -69,8 +77,9 @@ namespace Avocado.WEB.Controllers
 				{
 					OrderDate = DateTime.Now,
 					OrderStatus = "pending",
+					PaymentStatus="pending",
 					OrderTotal = orderTotal,
-					User = summaryVM.Customer,
+					UserId = summaryVM.Customer.Id,
 					Email = summaryVM.Customer.UserName,
 					Name = summaryVM.Customer.Name,
 					LastName = summaryVM.Customer.LastName,
@@ -78,10 +87,63 @@ namespace Avocado.WEB.Controllers
 					City = summaryVM.Customer.City,
 					PostalCode = summaryVM.Customer.PostalCode,
 					State = summaryVM.Customer.State,
-					PhoneNumber = summaryVM.Customer.PhoneNumber				
+					PhoneNumber = summaryVM.Customer.PhoneNumber
 
 				};
-				
+				await _orderHeaderRepo.PostAsync(orderHeader, Common.Common.OrderHeaderApi);
+				foreach (var item in summaryVM.cartItems)
+				{
+					OrderDetail orderDetail = new OrderDetail
+					{
+						OrderHeaderId = orderHeader.Id,
+						ProductId = item.ProductId,
+						Count = item.Count
+					};
+					await _orderDetailsRepo.PostAsync(orderDetail, Common.Common.OrderDetailApi);					
+				}
+				//stripe settings 
+				var domain = "https://localhost:44348/";
+				var options = new SessionCreateOptions
+				{
+					PaymentMethodTypes = new List<string>
+				{
+				  "card",
+				},
+					LineItems = new List<SessionLineItemOptions>(),
+					Mode = "payment",
+					SuccessUrl = domain + $"cart/OrderConfirmation?id={orderHeader.Id}",
+					CancelUrl = domain + $"cart/index",
+				};
+
+				foreach (var item in summaryVM.cartItems)
+				{
+
+					var sessionLineItem = new SessionLineItemOptions
+					{
+						PriceData = new SessionLineItemPriceDataOptions
+						{
+							UnitAmount = (long)(item.Product.Price * 100),//20.00 -> 2000
+							Currency = "usd",
+							ProductData = new SessionLineItemPriceDataProductDataOptions
+							{
+								Name = item.Product.Name
+							},
+
+						},
+						Quantity = item.Count,
+					};
+					options.LineItems.Add(sessionLineItem);
+
+				}
+
+				var service = new SessionService();
+				Session session = service.Create(options);
+				orderHeader.SessionId = session.Id;
+				orderHeader.PaymentIntentId = session.PaymentIntentId;
+				await _orderHeaderRepo.PutAsync(orderHeader, Common.Common.OrderHeaderApi);
+				Response.Headers.Add("Location", session.Url);
+				return new StatusCodeResult(303);
+
 			}
 			return View();
 		}
@@ -99,10 +161,10 @@ namespace Avocado.WEB.Controllers
 			sessionCarts = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? default;
 			if (sessionCarts.Count > 0)
 			{
-				var cartToDelete = sessionCarts.FirstOrDefault(x=>x.ProductId == id);
+				var cartToDelete = sessionCarts.FirstOrDefault(x => x.ProductId == id);
 				sessionCarts.Remove(cartToDelete);
 				HttpContext.Session.Set<List<ShoppingCart>>("sessionCart", sessionCarts);
-				
+
 			}
 			return RedirectToAction(nameof(Index));
 		}
@@ -113,5 +175,5 @@ namespace Avocado.WEB.Controllers
 		}
 	}
 
-	
+
 }

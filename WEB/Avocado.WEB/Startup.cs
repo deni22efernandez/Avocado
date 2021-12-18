@@ -32,10 +32,11 @@ namespace Avocado.WEB
 			services.AddScoped<IProductRepository, ProductRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+			services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(x =>
-				{
-					
+				{					
 					x.LoginPath = "/Account/Login";
 					x.AccessDeniedPath = "/Account/AccessDenied";
 					x.Cookie.HttpOnly = true;
@@ -49,7 +50,6 @@ namespace Avocado.WEB
 				x.Cookie.HttpOnly = true;
 				
 			});
-			//services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 			services.AddHttpContextAccessor();
 			services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
 			services.AddControllersWithViews();

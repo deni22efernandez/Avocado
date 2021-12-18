@@ -18,14 +18,14 @@ namespace Avocado.WEB.Models
 		public DateTime OrderDate { get; set; }
 		[Required]
 		public double OrderTotal { get; set; }				
-		public User User { get; set; }	
+		public int UserId { get; set; }	
 		public PaymentType PaymentType { get; set; }
 		public string OrderStatus { get; set; }
 		public string PaymentStatus { get; set; }
-		public string? TrackingNumber { get; set; }
-		public string? Carrier { get; set; }
-		public string? SessionId { get; set; }
-		public string? PaymentIntentId { get; set; }
+		public string TrackingNumber { get; set; }
+		public string Carrier { get; set; }
+		public string SessionId { get; set; }
+		public string PaymentIntentId { get; set; }
 		public string Name { get; set; }
 		public string LastName { get; set; }
 		public string Email { get; set; }
