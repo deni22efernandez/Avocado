@@ -50,7 +50,7 @@ namespace Avocado.API.Controllers
 			await _unitOfWork.OrderHeaderRepository.AddAsync(orderCreated);
 			bool result = await _unitOfWork.SaveAsync();
 			if (result)
-				return CreatedAtRoute("Get", orderHeader.Map<OrderHeader>(), orderCreated);
+				return CreatedAtAction("Get", new { id= orderCreated.Id }, orderCreated);
 			else
 				return BadRequest();
 			

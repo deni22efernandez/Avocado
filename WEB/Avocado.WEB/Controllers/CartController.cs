@@ -92,7 +92,7 @@ namespace Avocado.WEB.Controllers
 					PhoneNumber = summaryVM.Customer.PhoneNumber
 
 				};
-				await _orderHeaderRepo.PostAsync(orderHeader, Common.Common.OrderHeaderApi);
+				var result=await _orderHeaderRepo.PostAsync(orderHeader, Common.Common.OrderHeaderApi);
 				foreach (var item in summaryVM.cartItems)
 				{
 					OrderDetail orderDetail = new OrderDetail
