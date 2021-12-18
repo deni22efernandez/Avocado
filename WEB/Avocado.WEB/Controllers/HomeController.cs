@@ -57,7 +57,7 @@ namespace Avocado.WEB.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Details()
+		public IActionResult Details()
 		{
 			if (ModelState.IsValid)
 			{							

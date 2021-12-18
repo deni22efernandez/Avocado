@@ -84,13 +84,14 @@ namespace Avocado.WEB.Controllers
 						product.ImgUri = fileName + extention;
 
 					}
-					var created = await _prodRepo.PostAsync(product, Common.Common.ProductApi);
-					if (created)
+					if(await _prodRepo.PostAsync(product, Common.Common.ProductApi)!=null)
+						return RedirectToAction(nameof(Index));
+					else
 					{
+						ModelState.AddModelError("error", "Error while creating");
 						return RedirectToAction(nameof(Index));
 					}
-					ModelState.AddModelError("error", "Error while creating");
-					return RedirectToAction(nameof(Index));
+					
 				}
 				else
 				{

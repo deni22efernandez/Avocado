@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,7 @@ namespace Avocado.WEB
 			app.UseStaticFiles();
 
 			app.UseRouting();
+			StripeConfiguration.ApiKey=Configuration.GetSection("Stripe:SecretKey").Get<string>();
 			app.UseSession();
 			app.UseAuthentication();
 			app.UseAuthorization();

@@ -10,7 +10,7 @@ namespace Avocado.WEB.Repository.IRepository
 	{
 		Task<T> GetAsync(int id, string uri, string token=null);
 		Task<IEnumerable<T>> GetAllAsync(string uri, string token = null);
-		Task<bool> PostAsync(T entity, string uri, string token = null);
+		Task<T> PostAsync(T entity, string uri, string token = null);
 		Task<bool> PutAsync(T entity, string uri, string token = null);
 	}
 }
