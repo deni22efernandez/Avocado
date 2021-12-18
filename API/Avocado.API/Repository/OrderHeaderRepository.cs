@@ -22,7 +22,6 @@ namespace Avocado.API.Repository
 				orderHeaderFromDb.OrderDate = orderHeader.OrderDate;
 				orderHeaderFromDb.OrderTotal = orderHeader.OrderTotal;
 				orderHeaderFromDb.UserId = orderHeader.UserId;
-				orderHeaderFromDb.PaymentTypeId = orderHeader.PaymentTypeId;
 				orderHeaderFromDb.OrderStatus = orderHeader.OrderStatus;
 				orderHeaderFromDb.PaymentStatus = orderHeader.PaymentStatus;
 				orderHeaderFromDb.Carrier = orderHeader.Carrier;

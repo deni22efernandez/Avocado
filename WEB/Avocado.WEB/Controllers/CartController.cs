@@ -1,4 +1,6 @@
-﻿using Avocado.WEB.Models;
+﻿using Avocado.WEB.Common;
+using Avocado.WEB.Models;
+using Avocado.WEB.Models.Dtos;
 using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Avocado.WEB.SessionXtension;
@@ -56,7 +58,7 @@ namespace Avocado.WEB.Controllers
 			SummaryVM summaryVM = new SummaryVM()
 			{
 				cartItems = carts,
-				Customer = user
+				Customer = (user).Map<CustomerDto>()
 			};
 
 			return View(summaryVM);

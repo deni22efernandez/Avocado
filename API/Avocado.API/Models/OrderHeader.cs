@@ -17,11 +17,7 @@ namespace Avocado.API.Models
 		[Required]
 		public int UserId { get; set; }
 		[ForeignKey("UserId")]
-		public User User { get; set; }
-		[Required]
-		public int PaymentTypeId { get; set; }
-		[ForeignKey("PaymentTypeId")]
-		public PaymentType PaymentType { get; set; }
+		public User User { get; set; }		
 		public string OrderStatus { get; set; }
 		public string PaymentStatus { get; set; }
 		public string TrackingNumber { get; set; }

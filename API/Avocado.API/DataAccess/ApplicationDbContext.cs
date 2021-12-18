@@ -19,7 +19,6 @@ namespace Avocado.API.DataAccess
 		public DbSet<OrderHeader> OrderHeaders { get; set; }
 		public DbSet<OrderDetail> OrderDetails { get; set; }
 		public DbSet<User> Users { get; set; }
-		public DbSet<PaymentType> PaymentTypes { get; set; }
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);

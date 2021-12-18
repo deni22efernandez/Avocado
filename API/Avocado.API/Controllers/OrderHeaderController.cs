@@ -48,8 +48,12 @@ namespace Avocado.API.Controllers
 		{
 			var orderCreated = orderHeader.Map<OrderHeader>();
 			await _unitOfWork.OrderHeaderRepository.AddAsync(orderCreated);
-			await _unitOfWork.SaveAsync();
-			return CreatedAtRoute("Get", orderHeader.Map<OrderHeader>(), orderCreated);
+			bool result = await _unitOfWork.SaveAsync();
+			if (result)
+				return CreatedAtRoute("Get", orderHeader.Map<OrderHeader>(), orderCreated);
+			else
+				return BadRequest();
+			
 		}
 		[HttpPut]
 		public async Task<IActionResult> PutAsync([FromBody]OrderHeaderUpdate orderHeaderUpdate)

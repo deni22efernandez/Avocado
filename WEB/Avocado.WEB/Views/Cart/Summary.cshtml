@@ -1,6 +1,6 @@
 ﻿@model Avocado.WEB.Models.ViewModels.SummaryVM
 @using Microsoft.Extensions.Options
-@inject Avocado.WEB.Common.StripeSettings stripe
+@inject IOptions<Avocado.WEB.Common.StripeSettings> stripe
 
 <form method="post" id="payment-form">
 	<br />
@@ -30,7 +30,15 @@
 										<label>Name</label>
 									</div>
 									<div class="col-9">
-										<input asp-for="Customer.FullName" type="text" class="form-control" />
+										<input asp-for="Customer.Name" type="text" class="form-control" />
+									</div>
+								</div>
+								<div class="row my-1">
+									<div class="col-3">
+										<label>Last Name</label>
+									</div>
+									<div class="col-9">
+										<input asp-for="Customer.LastName" type="text" class="form-control" />
 									</div>
 								</div>
 								<div class="row my-1">
@@ -81,7 +89,7 @@
 										<input asp-for="Customer.PostalCode" type="text" class="form-control" />
 									</div>
 								</div>
-								
+								<input type="hidden" asp-for="Customer.Id">
 							</div>
 							<div class="col-12 col-lg-5 row">
 								<div class="col-12">
@@ -97,6 +105,8 @@
 											<input type="hidden" asp-for="@Model.cartItems[i].Product.Id" />
 											<input type="hidden" asp-for="@Model.cartItems[i].Product.Name" />
 											<input type="hidden" asp-for="@Model.cartItems[i].Product.Price" />
+											<input type="hidden" asp-for="@Model.cartItems[i].Count" />
+											<input type="hidden" asp-for="@Model.cartItems[i].ProductId" />
 											<li class="list-group-item d-flex justify-content-between">
 												<div>
 													<h6 class="my-0">@Model.cartItems[i].Product.Name</h6>

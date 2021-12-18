@@ -16,9 +16,7 @@ namespace Avocado.API.Models.Dtos.OrderHeader
 		[Required]
 		public int UserId { get; set; }
 		
-		public User User { get; set; }
-		[Required]
-		public int PaymentTypeId { get; set; }
+		public User User { get; set; }	
 		public string OrderStatus { get; set; }
 		public string PaymentStatus { get; set; }
 		public string TrackingNumber { get; set; }

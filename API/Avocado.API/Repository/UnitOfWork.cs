@@ -18,7 +18,6 @@ namespace Avocado.API.Repository
 			_contxt = contxt;
 			CategoryRepository = new CategoryRepository(_contxt);
 			ProductRepository = new Products(_contxt);
-			PaymentTypeRepository = new PaymentTypeRepository(_contxt);
 			UserRepository = new UserRepository(_contxt, options);
 			OrderHeaderRepository = new OrderHeaderRepository(_contxt);
 			OrderDetailRepository = new OrderDetailRepository(_contxt);
@@ -26,16 +25,16 @@ namespace Avocado.API.Repository
 		}
 		public ICategoryRepository CategoryRepository { get; private set; }
 		public IProductRepository ProductRepository { get; private set; }
-		public IPaymentTypeRepository PaymentTypeRepository { get; private set; }
 		public IUserRepository UserRepository { get; private set; }
 		public IOrderDetailRepository OrderDetailRepository { get; private set; }
 		public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
 
 		public IStored_Proc_Calls Stored_Proc_Calls { get; private set; }
 
-		public async Task SaveAsync()
+		public async Task<bool> SaveAsync()
 		{
-			await _contxt.SaveChangesAsync();
+			var result = await _contxt.SaveChangesAsync() > 0 ? true : false;
+			return result;
 		}
 
 		public void Dispose()
