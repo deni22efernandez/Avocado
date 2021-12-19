@@ -1,6 +1,7 @@
 using Avocado.WEB.Common;
 using Avocado.WEB.Repository;
 using Avocado.WEB.Repository.IRepository;
+using Avocado.WEB.SMTP;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +54,8 @@ namespace Avocado.WEB
 			});
 			services.AddHttpContextAccessor();
 			services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+			services.Configure<EmailSenderConfig>(Configuration.GetSection("Smtp"));
+			services.AddTransient<IEmailSender, EmailSender>();
 			services.AddRazorPages();
 			services.AddControllersWithViews().AddRazorRuntimeCompilation();
 		}
