@@ -35,12 +35,21 @@ namespace Avocado.WEB.Controllers
 			return User.Identity.IsAuthenticated ? ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value : "";
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int currentPage=1)
 		{
+			var productList = await _prodRepo.GetAllAsync(Common.Common.ProductApi, GetToken());		
+
 			HomeIndexVM homeIndexVM = new HomeIndexVM
 			{
-				Products = await _prodRepo.GetAllAsync(Common.Common.ProductApi, GetToken()),
-				Categories = await _categoryRepo.GetAllAsync(Common.Common.CategoryApi, GetToken())
+				Products = productList.Skip((currentPage-1)*3).Take(3),
+				Categories = await _categoryRepo.GetAllAsync(Common.Common.CategoryApi, GetToken()),
+				Pagination = new CustomTagHelper.PaginationModel()
+				{
+					Uri = "/Home/Index?currentPage=:",
+				    CurrentPage=currentPage,
+					TotalItems = productList.Count(),
+					ItemsPerPage = 3
+				}
 			};
 			return View(homeIndexVM);
 		}

@@ -53,7 +53,8 @@ namespace Avocado.WEB
 			});
 			services.AddHttpContextAccessor();
 			services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
-			services.AddControllersWithViews();
+			services.AddRazorPages();
+			services.AddControllersWithViews().AddRazorRuntimeCompilation();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

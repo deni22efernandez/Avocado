@@ -16,14 +16,14 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <body>
-	<header >
+	<header>
 		<nav class="navbar navbar-expand-sm box-shadow mb-3">
-			<div class="container" >
+			<div class="container">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" >
+				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -32,7 +32,7 @@
 							<a class="nav-link text-dark" href="~/html/CategoryCreate.html">Category</a>
 						</li>
 						@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-							_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+						  _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 						{
 							var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
 
@@ -59,13 +59,15 @@
 			</div>
 		</nav>
 	</header>
+
 	<div class="container">
 		<main role="main" class="pb-3">
+			
 			@RenderBody()
 		</main>
 	</div>
-
 	
+
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
