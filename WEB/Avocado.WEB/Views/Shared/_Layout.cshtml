@@ -28,11 +28,22 @@
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" asp-action="Index" asp-controller="Category">Index</a>
+								<a class="dropdown-item" href="#">Another action</a>
+								<a class="dropdown-item" href="#">Something else here</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Separated link</a>
+							</div>
+						</li>
+
 						<li class="nav-item">
 							<a class="nav-link text-dark" href="~/html/CategoryCreate.html">Category</a>
 						</li>
 						@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-						  _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+					 _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 						{
 							var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
 
@@ -58,15 +69,20 @@
 				</div>
 			</div>
 		</nav>
+		
 	</header>
 
 	<div class="container">
 		<main role="main" class="pb-3">
-			
+
 			@RenderBody()
 		</main>
 	</div>
-	
+	@*<footer class="border-top footer text-muted">
+			<div class="container">
+				&copy; 2021 - Avocado -
+			</div>
+		</footer>*@
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

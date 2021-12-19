@@ -32,13 +32,17 @@ namespace Avocado.WEB.Controllers
 			_orderHeaderRepo = orderHeaderRepo;
 			_orderDetailsRepo = orderDetailsRepo;
 		}
+		private string GetToken()
+		{
+			return (((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name)).ToString() ?? "";
+		}
 		public async Task<IActionResult> Index()
 		{
 			List<ShoppingCart> carts = new List<ShoppingCart>();
 			carts = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? default;
 			if (carts != null)
 			{
-				IEnumerable<Product> products = await _productRepo.GetAllAsync(Common.Common.ProductApi);
+				IEnumerable<Product> products = await _productRepo.GetAllAsync(Common.Common.ProductApi, GetToken());
 				foreach (var item in carts)
 				{
 					item.Product = products.Where(x => x.Id == item.ProductId).FirstOrDefault();
@@ -49,11 +53,11 @@ namespace Avocado.WEB.Controllers
 		public async Task<IActionResult> Summary()
 		{
 			var userId = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
-			var user = await _userRepo.GetAsync(userId, Common.Common.UserApi);
+			var user = await _userRepo.GetAsync(userId, Common.Common.UserApi, GetToken());
 			var carts = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart");
 			foreach (var item in carts)
 			{
-				item.Product = await _productRepo.GetAsync(item.ProductId, Common.Common.ProductApi);
+				item.Product = await _productRepo.GetAsync(item.ProductId, Common.Common.ProductApi, GetToken());
 			}
 			SummaryVM summaryVM = new SummaryVM()
 			{
@@ -92,7 +96,7 @@ namespace Avocado.WEB.Controllers
 					PhoneNumber = summaryVM.Customer.PhoneNumber
 
 				};
-				var result = await _orderHeaderRepo.PostAsync(orderHeader, Common.Common.OrderHeaderApi);
+				var result = await _orderHeaderRepo.PostAsync(orderHeader, Common.Common.OrderHeaderApi, GetToken());
 				orderHeader.Id = result.Id;
 				foreach (var item in summaryVM.cartItems)
 				{
@@ -102,7 +106,7 @@ namespace Avocado.WEB.Controllers
 						ProductId = item.ProductId,
 						Count = item.Count
 					};
-					await _orderDetailsRepo.PostAsync(orderDetail, Common.Common.OrderDetailApi);					
+					await _orderDetailsRepo.PostAsync(orderDetail, Common.Common.OrderDetailApi, GetToken());					
 				}
 				//stripe settings 
 				var domain = "https://localhost:44348/";
@@ -175,6 +179,27 @@ namespace Avocado.WEB.Controllers
 		{
 			HttpContext.Session.Clear();
 			return RedirectToAction("Index", "Home");
+		}
+		public async Task<IActionResult> OrderConfirmation(int id)
+		{
+			var order = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());
+			if (order != null && order.PaymentStatus!= "ApprovedForDelayedPayment")
+			{
+				var service = new SessionService();
+				Session session = service.Get(order.SessionId);
+				if (session.PaymentStatus.ToLower() == "paid")
+				{
+					order.OrderStatus = "approved";
+					order.PaymentStatus = "approved";
+					await _orderHeaderRepo.PutAsync(order, Common.Common.OrderHeaderApi, GetToken());
+					//send email
+					HttpContext.Session.Clear();
+				}
+				return View(order.Id);
+			}
+				
+			else
+				return NotFound();
 		}
 	}
 
