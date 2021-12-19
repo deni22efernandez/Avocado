@@ -4,6 +4,7 @@ using Avocado.WEB.Models.Dtos;
 using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Avocado.WEB.SessionXtension;
+using Avocado.WEB.SMTP;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
@@ -22,15 +23,18 @@ namespace Avocado.WEB.Controllers
 		private readonly IProductRepository _productRepo;
 		private readonly IOrderHeaderRepository _orderHeaderRepo;
 		private readonly IOrderDetailRepository _orderDetailsRepo;
+		private readonly IEmailSender _emailSender;
 		public CartController(IUserRepository userRepo,
 			IProductRepository productRepo,
 			IOrderHeaderRepository orderHeaderRepo,
-			IOrderDetailRepository orderDetailsRepo)
+			IOrderDetailRepository orderDetailsRepo,
+			IEmailSender emailSender)
 		{
 			_userRepo = userRepo;
 			_productRepo = productRepo;
 			_orderHeaderRepo = orderHeaderRepo;
 			_orderDetailsRepo = orderDetailsRepo;
+			_emailSender = emailSender;
 		}
 		private string GetToken()
 		{
@@ -193,6 +197,7 @@ namespace Avocado.WEB.Controllers
 					order.PaymentStatus = "approved";
 					await _orderHeaderRepo.PutAsync(order, Common.Common.OrderHeaderApi, GetToken());
 					//send email
+					await _emailSender.SendEmailAsync(order.Email, "Order confirmation", $"Payment for order #{order.Id} has been approved");
 					HttpContext.Session.Clear();
 				}
 				return View(order.Id);

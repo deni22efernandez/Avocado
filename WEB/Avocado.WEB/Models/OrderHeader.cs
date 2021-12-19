@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Avocado.WEB.Models
 {
-	public class PaymentType
-	{
-		public int Id { get; set; }
-		public string Description { get; set; }
-	}
+	
 	public class OrderHeader
 	{
 		public int Id { get; set; }
@@ -19,7 +15,6 @@ namespace Avocado.WEB.Models
 		[Required]
 		public double OrderTotal { get; set; }				
 		public int UserId { get; set; }	
-		public PaymentType PaymentType { get; set; }
 		public string OrderStatus { get; set; }
 		public string PaymentStatus { get; set; }
 		public string TrackingNumber { get; set; }
