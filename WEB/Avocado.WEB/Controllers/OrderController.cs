@@ -27,7 +27,7 @@ namespace Avocado.WEB.Controllers
 			var headers = await _orderHeaderRepo.GetAllAsync(Common.Common.OrderHeaderApi, GetToken());
 			OrderHeaderIndexVM model = new OrderHeaderIndexVM()
 			{
-				OrderHeaders = headers.Skip((currentPage-1)*3).Take(3),
+				OrderHeaders = headers.Skip((currentPage-1)*3).Take(3).ToList(),
 				PaginationModel = new CustomTagHelper.PaginationModel
 				{
 					CurrentPage = currentPage,

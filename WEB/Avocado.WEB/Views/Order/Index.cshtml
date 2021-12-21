@@ -1,43 +1,142 @@
 ﻿@model Avocado.WEB.Models.ViewModels.OrderHeaderIndexVM
 @if (Model.OrderHeaders.Count() > 0)
 {
-<div>
-	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-lg-10 py-3">
-			<table class="table table-borderless text-center">
-				<tr class="text-dark">
-					<th>Order</th>
-					<th>Date</th>
-					<th>Total</th>
-					<th>Customer</th>
-					<th>Order status</th>
-					<th>Payment status</th>
-					<th></th>
-				</tr>				@foreach (var item in Model.OrderHeaders)
-				{
-					<tr>
-						<td>@item.Id</td>
-						<td>@item.OrderDate.ToShortDateString()</td>
-						<td>$@item.OrderTotal</td>
-						<td>@item.FullName</td>
-						<td>@item.OrderStatus</td>
-						<td>@item.PaymentStatus</td>
-						<td>
-							<a asp-action="Edit">Edit</a>
-							<a asp-action="Delete">Delete</a>
-						</td>
+	<div>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-lg-8 py-3">
+				<table class="table table-borderless text-center">
+					<tr class="text-dark">
+						<th>Order</th>
+						<th>Date</th>
+						<th>Total</th>
+						<th>Customer</th>
+						<th>Order status</th>
+						<th>Payment status</th>
+						<th></th>
 					</tr>
-				}
-			</table>
-			<div pagination="@Model.PaginationModel" clases-enabled="true" page-class="btn border" page-class-normal="btn btn-light"
-				 page-class-selected="btn btn-success active" class="btn-group float-end box-shadow mb-5"></div>
+					@for (int i = 0; i < Model.OrderHeaders.Count(); i++)
+					{
+						<tr>
+							<td>@Model.OrderHeaders[i].Id</td>
+							<td>@Model.OrderHeaders[i].OrderDate.ToShortDateString()</td>
+							<td>$@Model.OrderHeaders[i].OrderTotal</td>
+							<td>@Model.OrderHeaders[i].FullName</td>
+							<td>@Model.OrderHeaders[i].OrderStatus</td>
+							<td>@Model.OrderHeaders[i].PaymentStatus</td>
+							<td>
+								<a id="modal" data-toggle="modal" data-value="@Model.OrderHeaders[i].Id" data-target="#details"
+								   data-date="@Model.OrderHeaders[i].OrderDate"
+								   data-total="@Model.OrderHeaders[i].OrderTotal"
+								   data-orderstatus="@Model.OrderHeaders[i].OrderStatus"
+								   data-paymentstatus="@Model.OrderHeaders[i].PaymentStatus"
+								   data-trackingnmb="@Model.OrderHeaders[i].TrackingNumber"
+								   data-carrier="@Model.OrderHeaders[i].Carrier"
+								   class="btn btn-outline-info btn-sm" style="display:inline-table">Edit</a>
+								<button class="btn btn-outline-info btn-sm" style="display: inline-table">Delete</button>
+							</td>
+						</tr>
+					}
+					@*@foreach (var item in Model.OrderHeaders)
+						{
+							<tr>
+								<td>@item.Id</td>
+								<td>@item.OrderDate.ToShortDateString()</td>
+								<td>$@item.OrderTotal</td>
+								<td>@item.FullName</td>
+								<td>@item.OrderStatus</td>
+								<td>@item.PaymentStatus</td>
+								<td>
+									<button id="edit" value="@item.Id" class="btn btn-outline-info btn-sm" style="display:inline-table">Edit</button>
+									<button class="btn btn-outline-info btn-sm" style="display: inline-table">Delete</button>
+								</td>
+							</tr>
+						}*@
+				</table>
+				<div pagination="@Model.PaginationModel" clases-enabled="true" page-class="btn border" page-class-normal="btn btn-light"
+					 page-class-selected="btn btn-success active" class="btn-group float-end box-shadow mb-5"></div>
+			</div>
+			@*<div class="col-md-1"></div>*@
 		</div>
-		<div class="col-md-1"></div>	
-	</div>	
-</div> 
+	</div>
+	<!--Modal/-->
+	<div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="details" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body ">
+					<form>
+						<div class="row">
+							<div class="col-md-6">
+								<h5>Order number</h5>
+								<textarea class="form-control order-number" id="order-number"></textarea>
+							</div>
+							<div class="col-md-6">
+								<h5>Date</h5>
+								<textarea class="form-control order-date" id="order-date"></textarea>
+							</div>
+							<div class="col-md-6">
+								<h5>Total</h5>
+								<textarea class="form-control order-total" id="order-total"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<h5>Order status</h5>
+							<textarea class="form-control order-orderStatus" id="order-orderStatus"></textarea>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<h5>Payment status</h5>
+								<textarea class="form-control order-paymentStatus" id="order-paymentStatus"></textarea>
+							</div>
+							<div class="col-md-6">
+								<h5>Carrier</h5>
+								<textarea class="form-control order-carrier" id="order-carrier"></textarea>
+							</div>
+							<div class="col-md-6">
+								<h5>Tracking number</h5>
+								<textarea class="form-control order-trackingNmb" id="order-trackingNmb"></textarea>
+							</div>
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 }
 else
 {
-	<p>No orders to display</p>
+<p>No orders to display</p>
+}
+@section Scripts{
+	<script>
+		$('#details').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget)
+			var number = button.data('value')
+			var date = button.data('date')
+			var total = button.data('total')
+			var orderStatus = button.data('orderstatus')
+			var paymentStatus = button.data('paymentstatus')
+			var carrier = button.data('carrier')
+			var trackingNmb = button.data('trackingnmb')
+			var modal = $(this)
+			modal.find('.order-number').text(number)
+			modal.find('.order-date').text(date)
+			modal.find('.order-total').text('$' + total)
+			modal.find('.order-orderStatus').text(orderStatus)
+			modal.find('.order-paymentStatus').text(paymentStatus)
+			modal.find('.order-carrier').text(carrier)
+			modal.find('.order-trackingNmb').text(trackingNmb)
+		})
+	</script>
 }

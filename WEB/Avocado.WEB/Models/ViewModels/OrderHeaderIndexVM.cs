@@ -8,7 +8,7 @@ namespace Avocado.WEB.Models.ViewModels
 {
 	public class OrderHeaderIndexVM
 	{
-		public IEnumerable<OrderHeader> OrderHeaders { get; set; }
+		public IList<OrderHeader> OrderHeaders { get; set; }
 		public PaginationModel PaginationModel { get; set; }
 	}
 }
