@@ -25,33 +25,22 @@
 							<td>@Model.OrderHeaders[i].OrderStatus</td>
 							<td>@Model.OrderHeaders[i].PaymentStatus</td>
 							<td>
+								<button class="btn btn-outline-success btn-sm" style="display: inline-table">Details</button>
 								<button id="modal" data-toggle="modal" data-value="@Model.OrderHeaders[i].Id" data-target="#details"
-								   data-date="@Model.OrderHeaders[i].OrderDate.ToShortDateString()"
-								   data-total="@Model.OrderHeaders[i].OrderTotal"
-								   data-orderstatus="@Model.OrderHeaders[i].OrderStatus"
-								   data-paymentstatus="@Model.OrderHeaders[i].PaymentStatus"
-								   data-trackingnmb="@Model.OrderHeaders[i].TrackingNumber"
-								   data-carrier="@Model.OrderHeaders[i].Carrier"
-								   class="btn btn-outline-success btn-sm" style="display:inline-table">Edit</button>
-								<button class="btn btn-outline-success btn-sm" style="display: inline-table">Delete</button>
+										data-date="@Model.OrderHeaders[i].OrderDate.ToShortDateString()"
+										data-total="@Model.OrderHeaders[i].OrderTotal"
+										data-orderstatus="@Model.OrderHeaders[i].OrderStatus"
+										data-paymentstatus="@Model.OrderHeaders[i].PaymentStatus"
+										data-trackingnmb="@Model.OrderHeaders[i].TrackingNumber"
+										data-carrier="@Model.OrderHeaders[i].Carrier"
+										class="btn btn-outline-warning btn-sm" style="display:inline-table">
+									Edit
+								</button>
+								<button class="btn btn-outline-danger btn-sm" style="display: inline-table">Delete</button>
 							</td>
 						</tr>
 					}
-					@*@foreach (var item in Model.OrderHeaders)
-						{
-							<tr>
-								<td>@item.Id</td>
-								<td>@item.OrderDate.ToShortDateString()</td>
-								<td>$@item.OrderTotal</td>
-								<td>@item.FullName</td>
-								<td>@item.OrderStatus</td>
-								<td>@item.PaymentStatus</td>
-								<td>
-									<button id="edit" value="@item.Id" class="btn btn-outline-info btn-sm" style="display:inline-table">Edit</button>
-									<button class="btn btn-outline-info btn-sm" style="display: inline-table">Delete</button>
-								</td>
-							</tr>
-						}*@
+
 				</table>
 				<div pagination="@Model.PaginationModel" clases-enabled="true" page-class="btn border" page-class-normal="btn btn-light"
 					 page-class-selected="btn btn-success active" class="btn-group float-end box-shadow mb-5"></div>
@@ -89,94 +78,34 @@
 								<label class="text-success">Order status</label>
 								<textarea class="form-control order-orderStatus" id="order-orderStatus" readonly></textarea>
 							</div>
-							
-								<div class="col-md-6">
-									<label class="text-success">Payment status</label>
-									<textarea class="form-control order-paymentStatus" id="order-paymentStatus" readonly></textarea>
-								</div>
-								<div class="col-md-6">
-									<label class="text-success">Carrier</label>
-									<textarea class="form-control order-carrier" id="carrier"></textarea>
-								</div>
-								<div class="col-md-6">
-									<label class="text-success">Tracking number</label>
-									<textarea class="form-control order-trackingNmb" id="tracking"></textarea>
-								</div>
-							
+
+							<div class="col-md-6">
+								<label class="text-success">Payment status</label>
+								<textarea class="form-control order-paymentStatus" id="order-paymentStatus" readonly></textarea>
+							</div>
+							<div class="col-md-6">
+								<label class="text-success">Carrier</label>
+								<textarea class="form-control order-carrier" id="carrier"></textarea>
+							</div>
+							<div class="col-md-6">
+								<label class="text-success">Tracking number</label>
+								<textarea class="form-control order-trackingNmb" id="tracking"></textarea>
+							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" id="submit" class="btn btn-success">Update</button>
-							<button class="btn btn-success" data-dismiss="modal">Close</button>
+							<button type="submit" id="submit" class="btn btn-outline-success">Update</button>
+							<button class="btn btn-outline-success" data-dismiss="modal">Close</button>
 						</div>
 					</form>
 				</div>
-				
 			</div>
 		</div>
 	</div>
-
 }
 else
 {
-<p>No orders to display</p>
+	<p>No orders to display</p>
 }
 @section Scripts{
-	<script>
-		$('#details').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget)
-			var number = button.data('value')
-			var date = button.data('date')
-			var total = button.data('total')
-			var orderStatus = button.data('orderstatus')
-			var paymentStatus = button.data('paymentstatus')
-			var carrier = button.data('carrier')
-			var trackingNmb = button.data('trackingnmb')
-			var modal = $(this)
-			modal.find('.order-number').text(number)
-			modal.find('.order-date').text(date)
-			modal.find('.order-total').text('$' + total)
-			modal.find('.order-orderStatus').text(orderStatus)
-			modal.find('.order-paymentStatus').text(paymentStatus)
-			modal.find('.order-carrier').text(carrier)
-			modal.find('.order-trackingNmb').text(trackingNmb)
-		})
-
-	document.addEventListener('DOMContentLoaded', () => {
-		const form = document.querySelector('#form');
-		form.addEventListener('submit', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-
-			class OrderHeader{
-				constructor() {
-					this.Id;
-					this.carrier;
-					this.trackingNumber
-				}
-			}
-			const Details = new OrderHeader();
-			
-			const elements = form.elements;
-
-			Details.Id = parseInt(elements.ordernumber.value);
-			Details.carrier = elements.carrier.value;
-			Details.trackingNumber = elements.tracking.value;
-			console.log(Details);
-			debugger;
-
-			return fetch('https://localhost:44363/orderHeaders', {
-				headers: {
-					'Content-type': 'application/json'
-				},
-				body: JSON.stringify(Details),
-				method: 'PATCH'
-			}).then(response => 
-				response.json()
-			).then(data =>
-				alert(JSON.stringify(data.value))
-			).catch(console.log.bind(console));
-			
-		});
-	});
-</script>
+	<script src="~/js/orderupdate.js"></script>
 }
