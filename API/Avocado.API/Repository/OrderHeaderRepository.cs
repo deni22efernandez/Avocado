@@ -15,7 +15,7 @@ namespace Avocado.API.Repository
 		{
 			_context = context;
 		}
-		public async Task UpdateAsync(OrderHeader orderHeader)
+		public async Task UpdateAsync(OrderHeader orderHeader)//PUT
 		{
 			var orderHeaderFromDb = await _context.OrderHeaders.FirstOrDefaultAsync(x => x.Id == orderHeader.Id);
 			if (orderHeaderFromDb != null) {
@@ -37,6 +37,16 @@ namespace Avocado.API.Repository
 				orderHeaderFromDb.State = orderHeader.State;
 				
 			}
+		}
+		public async Task Update(OrderHeader orderHeader)//PATCH
+		{
+			var _orderFromDb = await _context.OrderHeaders.FirstOrDefaultAsync(x => x.Id == orderHeader.Id);
+			if (_orderFromDb != null)
+			{
+				_orderFromDb.Carrier = orderHeader.Carrier;
+				_orderFromDb.TrackingNumber = orderHeader.TrackingNumber;
+			}
+			 _context.OrderHeaders.Update(_orderFromDb);			
 		}
 
 		

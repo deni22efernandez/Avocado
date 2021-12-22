@@ -70,11 +70,11 @@
 					</button>
 				</div>
 				<div class="modal-body ">
-					<form>
+					<form id="form">
 						<div class="row">
 							<div class="col-md-6">
 								<h5>Order number</h5>
-								<textarea class="form-control order-number" id="order-number"></textarea>
+								<textarea class="form-control order-number" id="ordernumber"></textarea>
 							</div>
 							<div class="col-md-6">
 								<h5>Date</h5>
@@ -96,19 +96,20 @@
 							</div>
 							<div class="col-md-6">
 								<h5>Carrier</h5>
-								<textarea class="form-control order-carrier" id="order-carrier"></textarea>
+								<textarea class="form-control order-carrier" id="carrier"></textarea>
 							</div>
 							<div class="col-md-6">
 								<h5>Tracking number</h5>
-								<textarea class="form-control order-trackingNmb" id="order-trackingNmb"></textarea>
+								<textarea class="form-control order-trackingNmb" id="tracking"></textarea>
 							</div>
 						</div>
-
+						<div class="modal-footer">
+							<button type="submit" id="submit" class="btn btn-info">Update</button>
+							<button class="btn btn-info" data-dismiss="modal">Close</button>
+						</div>
 					</form>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -138,5 +139,43 @@ else
 			modal.find('.order-carrier').text(carrier)
 			modal.find('.order-trackingNmb').text(trackingNmb)
 		})
-	</script>
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const form = document.querySelector('#form');
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			class OrderHeader{
+				constructor() {
+					this.Id;
+					this.carrier;
+					this.trackingNumber
+				}
+			}
+			const Details = new OrderHeader();
+			
+			const elements = form.elements;
+
+			Details.Id = parseInt(elements.ordernumber.value);
+			Details.carrier = elements.carrier.value;
+			Details.trackingNumber = elements.tracking.value;
+			console.log(Details);
+			debugger;
+
+			return fetch('https://localhost:44363/orderHeaders', {
+				headers: {
+					'Content-type': 'application/json'
+				},
+				body: JSON.stringify(Details),
+				method: 'PATCH'
+			}).then(response =>
+				response.json()
+			).then(data =>
+				console.log(data)
+			).catch(console.log.bind(console));
+			
+		});
+	});
+</script>
 }

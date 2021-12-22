@@ -62,5 +62,17 @@ namespace Avocado.API.Controllers
 			await _unitOfWork.SaveAsync();
 			return Ok();
 		}
+		[HttpPatch]
+		public async Task<IActionResult> PatchAsync([FromBody] OrderHeaderUpdate orderHeaderUpdate)
+		{
+			await _unitOfWork.OrderHeaderRepository.Update(orderHeaderUpdate.Map<OrderHeader>());
+			if(await _unitOfWork.SaveAsync())
+
+			{
+				return NoContent();
+			}
+			JsonResult result = new JsonResult($"Error while updating entity {orderHeaderUpdate.Id}");
+			return BadRequest(result);
+		}
 	}
 }
