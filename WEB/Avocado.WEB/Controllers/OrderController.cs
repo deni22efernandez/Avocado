@@ -14,9 +14,11 @@ namespace Avocado.WEB.Controllers
 	public class OrderController : Controller
 	{
 		private readonly IOrderHeaderRepository _orderHeaderRepo;
-		public OrderController(IOrderHeaderRepository orderHeaderRepo)
+		private readonly IOrderDetailRepository _orderDetaisRepo;
+		public OrderController(IOrderHeaderRepository orderHeaderRepo, IOrderDetailRepository orderDetaisRepo)
 		{
 			_orderHeaderRepo = orderHeaderRepo;
+			_orderDetaisRepo = orderDetaisRepo;
 		}
 		private string GetToken()
 		{
@@ -38,6 +40,15 @@ namespace Avocado.WEB.Controllers
 				}
 			};
 			return View(model);
+		}
+		public async Task<IActionResult> Details(int id)
+		{
+			OrderDetailVM orderDetailVM = new OrderDetailVM()
+			{
+				OrderHeader = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken()),
+				OrderDetails = await _orderDetaisRepo.GetAllAsync(Common.Common.OrderDetailApi, GetToken(), id)
+			};
+			return View(orderDetailVM);
 		}
 	}
 }

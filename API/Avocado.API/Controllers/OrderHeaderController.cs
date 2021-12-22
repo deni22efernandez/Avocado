@@ -35,7 +35,7 @@ namespace Avocado.API.Controllers
 		}
 		[HttpGet]
 		public async Task<IActionResult> GetAsync()
-		{
+		{			
 			var orderHeaders = await _unitOfWork.OrderHeaderRepository.GetAllAsync(includeProperties:"User");
 			if (orderHeaders != null)
 			{

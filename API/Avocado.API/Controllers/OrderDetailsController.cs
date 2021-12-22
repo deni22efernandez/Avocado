@@ -31,9 +31,14 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpGet]
-		public async Task<IActionResult> GetAsync()
+		public async Task<IActionResult> GetAsync(int? id=null)//
 		{
-			var orderDetails = await _unitOfWork.OrderDetailRepository.GetAllAsync();
+			IEnumerable<OrderDetail> orderDetails = new List<OrderDetail>();
+			if (id != null)
+			{
+				orderDetails = await _unitOfWork.OrderDetailRepository.GetAllAsync(x=>x.OrderHeaderId==id);
+			}
+			orderDetails = await _unitOfWork.OrderDetailRepository.GetAllAsync();
 			if (orderDetails != null)
 			{
 				return Ok((orderDetails).Map<IEnumerable<OrderDetailsGet>>());
