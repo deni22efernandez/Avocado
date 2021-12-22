@@ -18,6 +18,23 @@ namespace Avocado.API.Repository
 			_context = context;
 			_dbSet = _context.Set<T>();
 		}
+		public T Get(Expression<Func<T, bool>> filter = null, string includeProperties = null)
+		{
+			IQueryable<T> query = _dbSet;
+			if (filter != null)
+			{
+				query = query.Where(filter);
+			}
+			if (!string.IsNullOrEmpty(includeProperties))
+			{
+				foreach (var item in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					query = query.Include(item);
+				}
+			}
+
+			return query.AsNoTracking().FirstOrDefault();
+		}
 
 		public async Task<T> GetAsync(Expression<Func<T,bool>> filter=null, string includeProperties=null)
 		{

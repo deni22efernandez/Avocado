@@ -41,12 +41,13 @@ namespace Avocado.WEB.Controllers
 			};
 			return View(model);
 		}
+		[HttpGet]
 		public async Task<IActionResult> Details(int id)
 		{
 			OrderDetailVM orderDetailVM = new OrderDetailVM()
 			{
 				OrderHeader = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken()),
-				OrderDetails = await _orderDetaisRepo.GetAllAsync(Common.Common.OrderDetailApi, GetToken(), id)
+				OrderDetails = await _orderDetaisRepo.GetAllAsync(Common.Common.OrderDetailApi+id, GetToken())
 			};
 			return View(orderDetailVM);
 		}

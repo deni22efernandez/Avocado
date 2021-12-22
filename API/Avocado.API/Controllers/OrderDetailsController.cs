@@ -20,28 +20,33 @@ namespace Avocado.API.Controllers
 		{
 			_unitOfWork = unitOfWork;
 		}
-		[HttpGet("{id:int}")]
-		public async Task<IActionResult> GetAsync(int id)
+		//[HttpGet("{id:int}")]
+		//public IActionResult Get(int id)
+		//{
+		//	var orderDetail = _unitOfWork.OrderDetailRepository.Get(x => x.Id == id);
+		//	if (orderDetail != null)
+		//	{
+		//		return Ok((orderDetail).Map<OrderDetailsGet>());
+		//	}
+		//	return NotFound();
+		//}
+		//[HttpGet]
+		//public async Task<IActionResult> GetAsync()
+		//{					
+		//	var orderDetails = await _unitOfWork.OrderDetailRepository.GetAllAsync();
+		//	if (orderDetails != null)
+		//	{
+		//		return Ok((orderDetails).Map<IEnumerable<OrderDetailsGet>>());
+		//	}
+		//	return NotFound();
+		//}
+		[HttpGet("{orderid:int}")]
+		public async Task<IActionResult> GetByOrderHeaderId(int orderid)
 		{
-			var orderDetail = await _unitOfWork.OrderDetailRepository.GetAsync(x => x.Id == id);
-			if (orderDetail != null)
-			{
-				return Ok((orderDetail).Map<OrderDetailsGet>());
-			}
-			return NotFound();
-		}
-		[HttpGet]
-		public async Task<IActionResult> GetAsync(int? id=null)//
-		{
-			IEnumerable<OrderDetail> orderDetails = new List<OrderDetail>();
-			if (id != null)
-			{
-				orderDetails = await _unitOfWork.OrderDetailRepository.GetAllAsync(x=>x.OrderHeaderId==id);
-			}
-			orderDetails = await _unitOfWork.OrderDetailRepository.GetAllAsync();
+			var orderDetails = await _unitOfWork.OrderDetailRepository.GetByOrderHeaderId(orderid);
 			if (orderDetails != null)
 			{
-				return Ok((orderDetails).Map<IEnumerable<OrderDetailsGet>>());
+				return Ok(orderDetails);
 			}
 			return NotFound();
 		}

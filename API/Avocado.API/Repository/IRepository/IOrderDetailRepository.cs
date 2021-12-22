@@ -8,6 +8,7 @@ namespace Avocado.API.Repository.IRepository
 {
 	public interface IOrderDetailRepository:IRepository<OrderDetail>
 	{
+		Task<IEnumerable<OrderDetail>> GetByOrderHeaderId(int id);
 		Task UpdateAsync(OrderDetail orderDetail);
 	}
 }

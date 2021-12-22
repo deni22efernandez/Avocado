@@ -25,7 +25,7 @@
 							<td>@Model.OrderHeaders[i].OrderStatus</td>
 							<td>@Model.OrderHeaders[i].PaymentStatus</td>
 							<td>
-								<button asp-action="Details" asp-route-id="@Model.OrderHeaders[i].Id" class="btn btn-outline-success btn-sm" style="display: inline-table">Details</button>
+								<a asp-action="Details" asp-route-id="@Model.OrderHeaders[i].Id" class="btn btn-outline-success btn-sm" style="display: inline-table">Details</a>
 								<button id="modal" data-toggle="modal" data-value="@Model.OrderHeaders[i].Id" data-target="#details"
 										data-date="@Model.OrderHeaders[i].OrderDate.ToShortDateString()"
 										data-total="@Model.OrderHeaders[i].OrderTotal"

@@ -17,6 +17,7 @@ namespace Avocado.WEB.Repository
 		{
 			_httpClient = httpClient;
 		}
+		
 		public async Task<T> GetAsync(int id, string uri, string token = null)
 		{
 			var request = new HttpRequestMessage(HttpMethod.Get, uri + id);
@@ -35,9 +36,9 @@ namespace Avocado.WEB.Repository
 			}
 			return null;
 		}
-		public async Task<IEnumerable<T>> GetAllAsync(string uri, string token = null, int? id = null)//
+		public async Task<IEnumerable<T>> GetAllAsync(string uri, string token = null)
 		{
-			var request = new HttpRequestMessage(HttpMethod.Get, uri+id);//
+			var request = new HttpRequestMessage(HttpMethod.Get, uri);
 			var client = _httpClient.CreateClient();
 			if (!string.IsNullOrEmpty(token))
 			{

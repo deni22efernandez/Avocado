@@ -16,6 +16,10 @@ namespace Avocado.API.Repository
 		{
 			_context = context;
 		}
+		public async Task<IEnumerable<OrderDetail>> GetByOrderHeaderId(int id)
+		{
+			return await _context.OrderDetails.Include(x=>x.Product).Where(x => x.OrderHeaderId == id).ToListAsync();
+		}
 		public async Task UpdateAsync(OrderDetail orderDetail)
 		{
 			var detailFromDb = await _context.OrderDetails.FirstOrDefaultAsync(x => x.Id == orderDetail.Id);
