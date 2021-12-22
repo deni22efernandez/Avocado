@@ -92,5 +92,23 @@ namespace Avocado.WEB.Repository
 				return false;
 			}
 		}
+		public async Task<bool> PatchAsync(T entity, string uri, string token = null)
+		{
+			var request = new HttpRequestMessage(HttpMethod.Patch, uri);//test patch
+			request.Content = new StringContent(JsonConvert.SerializeObject(entity), System.Text.Encoding.UTF8, "application/json");
+			var client = _httpClient.CreateClient();
+			if (!string.IsNullOrEmpty(token))
+			{
+				client.DefaultRequestHeaders.Add("token", token);
+			}
+			using (HttpResponseMessage response = await client.SendAsync(request))
+			{
+				if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+				{
+					return true;
+				}
+				return false;
+			}
+		}
 	}
 }

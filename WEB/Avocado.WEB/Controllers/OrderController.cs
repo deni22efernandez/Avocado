@@ -3,6 +3,7 @@ using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Avocado.WEB.SessionXtension;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,45 @@ namespace Avocado.WEB.Controllers
 				OrderDetails = await _orderDetaisRepo.GetAllAsync(Common.Common.OrderDetailApi+id, GetToken())
 			};
 			return View(orderDetailVM);
+		}
+		public async Task<IActionResult> StartProcessing(int id)
+		{
+			var orderFromDb = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());
+			orderFromDb.OrderStatus = "Processing";
+			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());			
+			return RedirectToAction(nameof(Index));
+		}
+		public async Task<IActionResult> ShipOrder(int id)
+		{
+			var orderFromDb = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());
+			orderFromDb.OrderStatus = "Shipped";
+			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());
+			return RedirectToAction(nameof(Index));
+		}
+		public async Task<IActionResult> CancelOrder(int id)
+		{
+			var orderFromDb = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());
+			if (orderFromDb.PaymentStatus == "approved")
+			{
+				var options = new RefundCreateOptions
+				{
+					Reason = RefundReasons.RequestedByCustomer,
+					PaymentIntent = orderFromDb.PaymentIntentId
+				};
+
+				var service = new RefundService();
+				Refund refund = service.Create(options);
+
+				orderFromDb.OrderStatus = "Cancelled";
+				orderFromDb.PaymentStatus = "Refunded";				
+			}
+			else
+			{
+				orderFromDb.OrderStatus = "Cancelled";
+				orderFromDb.PaymentStatus = "Cancelled";
+			}
+			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }

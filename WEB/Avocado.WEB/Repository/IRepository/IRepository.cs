@@ -12,5 +12,6 @@ namespace Avocado.WEB.Repository.IRepository
 		Task<IEnumerable<T>> GetAllAsync(string uri, string token = null);
 		Task<T> PostAsync(T entity, string uri, string token = null);
 		Task<bool> PutAsync(T entity, string uri, string token = null);
+		Task<bool> PatchAsync(T entity, string uri, string token = null);
 	}
 }
