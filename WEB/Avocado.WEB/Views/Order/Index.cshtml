@@ -4,9 +4,9 @@
 	<div>
 		<div class="row">
 			<div class="col-md-1"></div>
-			<div class="col-lg-8 py-3">
+			<div class="col-lg-10 py-3">
 				<table class="table table-borderless text-center">
-					<tr class="text-dark">
+					<tr class="text-success">
 						<th>Order</th>
 						<th>Date</th>
 						<th>Total</th>
@@ -25,15 +25,15 @@
 							<td>@Model.OrderHeaders[i].OrderStatus</td>
 							<td>@Model.OrderHeaders[i].PaymentStatus</td>
 							<td>
-								<a id="modal" data-toggle="modal" data-value="@Model.OrderHeaders[i].Id" data-target="#details"
-								   data-date="@Model.OrderHeaders[i].OrderDate"
+								<button id="modal" data-toggle="modal" data-value="@Model.OrderHeaders[i].Id" data-target="#details"
+								   data-date="@Model.OrderHeaders[i].OrderDate.ToShortDateString()"
 								   data-total="@Model.OrderHeaders[i].OrderTotal"
 								   data-orderstatus="@Model.OrderHeaders[i].OrderStatus"
 								   data-paymentstatus="@Model.OrderHeaders[i].PaymentStatus"
 								   data-trackingnmb="@Model.OrderHeaders[i].TrackingNumber"
 								   data-carrier="@Model.OrderHeaders[i].Carrier"
-								   class="btn btn-outline-info btn-sm" style="display:inline-table">Edit</a>
-								<button class="btn btn-outline-info btn-sm" style="display: inline-table">Delete</button>
+								   class="btn btn-outline-success btn-sm" style="display:inline-table">Edit</button>
+								<button class="btn btn-outline-success btn-sm" style="display: inline-table">Delete</button>
 							</td>
 						</tr>
 					}
@@ -64,48 +64,49 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel"></h5>
+					<h5 class="modal-title text-success" id="exampleModalLabel">Order update</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body ">
+				<div class="modal-body text-center">
 					<form id="form">
 						<div class="row">
-							<div class="col-md-6">
-								<h5>Order number</h5>
-								<textarea class="form-control order-number" id="ordernumber"></textarea>
+							<div class="col-md-4">
+								<label class="text-success">Order number</label>
+								<textarea class="form-control order-number" id="ordernumber" readonly></textarea>
 							</div>
-							<div class="col-md-6">
-								<h5>Date</h5>
-								<textarea class="form-control order-date" id="order-date"></textarea>
+							<div class="col-md-4">
+								<label class="text-success">Date</label>
+								<textarea class="form-control order-date" id="order-date" readonly></textarea>
 							</div>
-							<div class="col-md-6">
-								<h5>Total</h5>
-								<textarea class="form-control order-total" id="order-total"></textarea>
+							<div class="col-md-4">
+								<label class="text-success">Total</label>
+								<textarea class="form-control order-total" id="order-total" readonly></textarea>
 							</div>
-						</div>
-						<div class="form-group">
-							<h5>Order status</h5>
-							<textarea class="form-control order-orderStatus" id="order-orderStatus"></textarea>
-						</div>
-						<div class="row">
+
 							<div class="col-md-6">
-								<h5>Payment status</h5>
-								<textarea class="form-control order-paymentStatus" id="order-paymentStatus"></textarea>
+								<label class="text-success">Order status</label>
+								<textarea class="form-control order-orderStatus" id="order-orderStatus" readonly></textarea>
 							</div>
-							<div class="col-md-6">
-								<h5>Carrier</h5>
-								<textarea class="form-control order-carrier" id="carrier"></textarea>
-							</div>
-							<div class="col-md-6">
-								<h5>Tracking number</h5>
-								<textarea class="form-control order-trackingNmb" id="tracking"></textarea>
-							</div>
+							
+								<div class="col-md-6">
+									<label class="text-success">Payment status</label>
+									<textarea class="form-control order-paymentStatus" id="order-paymentStatus" readonly></textarea>
+								</div>
+								<div class="col-md-6">
+									<label class="text-success">Carrier</label>
+									<textarea class="form-control order-carrier" id="carrier"></textarea>
+								</div>
+								<div class="col-md-6">
+									<label class="text-success">Tracking number</label>
+									<textarea class="form-control order-trackingNmb" id="tracking"></textarea>
+								</div>
+							
 						</div>
 						<div class="modal-footer">
-							<button type="submit" id="submit" class="btn btn-info">Update</button>
-							<button class="btn btn-info" data-dismiss="modal">Close</button>
+							<button type="submit" id="submit" class="btn btn-success">Update</button>
+							<button class="btn btn-success" data-dismiss="modal">Close</button>
 						</div>
 					</form>
 				</div>
@@ -169,10 +170,10 @@ else
 				},
 				body: JSON.stringify(Details),
 				method: 'PATCH'
-			}).then(response =>
+			}).then(response => 
 				response.json()
 			).then(data =>
-				console.log(data)
+				alert(JSON.stringify(data.value))
 			).catch(console.log.bind(console));
 			
 		});
