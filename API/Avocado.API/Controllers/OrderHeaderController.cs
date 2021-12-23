@@ -55,13 +55,6 @@ namespace Avocado.API.Controllers
 				return BadRequest();
 			
 		}
-		[HttpPut]
-		public async Task<IActionResult> PutAsync([FromBody] OrderHeaderUpdate orderHeaderUpdate)
-		{
-			await _unitOfWork.OrderHeaderRepository.UpdateAsync(orderHeaderUpdate.Map<OrderHeader>());
-			await _unitOfWork.SaveAsync();
-			return Ok();
-		}
 		[HttpPatch]
 		public async Task<IActionResult> PatchAsync([FromBody] OrderHeaderUpdate orderHeaderUpdate)
 		{			

@@ -151,7 +151,7 @@ namespace Avocado.WEB.Controllers
 				Session session = service.Create(options);
 				orderHeader.SessionId = session.Id;
 				orderHeader.PaymentIntentId = session.PaymentIntentId;
-				await _orderHeaderRepo.PutAsync(orderHeader, Common.Common.OrderHeaderApi);//patch
+				await _orderHeaderRepo.PatchAsync(orderHeader, Common.Common.OrderHeaderApi);//patch
 				Response.Headers.Add("Location", session.Url);
 				return new StatusCodeResult(303);
 
@@ -195,7 +195,7 @@ namespace Avocado.WEB.Controllers
 				{
 					order.OrderStatus = "approved";
 					order.PaymentStatus = "approved";
-					await _orderHeaderRepo.PutAsync(order, Common.Common.OrderHeaderApi, GetToken());//patch
+					await _orderHeaderRepo.PatchAsync(order, Common.Common.OrderHeaderApi, GetToken());//patch
 					//send email
 					await _emailSender.SendEmailAsync(order.Email, "Order confirmation", $"Payment for order #{order.Id} has been approved");
 					HttpContext.Session.Clear();

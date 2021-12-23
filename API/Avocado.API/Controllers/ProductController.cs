@@ -49,7 +49,7 @@ namespace Avocado.API.Controllers
 			return NotFound();
 		}
 		[HttpPost]
-		[Authorize(Roles ="Admin")]
+		//[Authorize(Roles ="Admin")]
 		public async Task<IActionResult> PostAsync([FromBody] ProductCreateDto productDto)
 		{
 			var objToCreate = productDto.Map<Product>();
@@ -59,7 +59,7 @@ namespace Avocado.API.Controllers
 		}
 
 		[HttpPatch]
-		[Authorize(Roles = "Admin")]
+		//[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Patch( [FromBody] ProductUpdateDto productDto)
 		{
 			var parameters = new DynamicParameters();
@@ -73,7 +73,7 @@ namespace Avocado.API.Controllers
 				parameters.Add("@Img", productDto.ImgUri);
 			   _unitOfWork.Stored_Proc_Calls.Execute("_sp_ProductUpsert", parameters);
 				await _unitOfWork.SaveAsync();
-				return NoContent();
+				return Ok();
 			}
 			//create
 			parameters.Add("@Name", productDto.Name);
@@ -103,7 +103,7 @@ namespace Avocado.API.Controllers
 		//	return CreatedAtAction("Get", new { id = objToCreate.Id }, objToCreate);
 		//}
 		[HttpPut]
-		[Authorize(Roles = "Admin")]
+		//[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> UpdateAsync([FromBody] ProductUpdateDto productUpdateDto)
 		{
 			var parameter = new DynamicParameters();
@@ -116,7 +116,7 @@ namespace Avocado.API.Controllers
 
 			_unitOfWork.Stored_Proc_Calls.Execute("_sp_UpdateProduct", parameter);
 			await _unitOfWork.SaveAsync();
-			return NoContent();//what returns on failure
+			return Ok();//what returns on failure
 		}
 	}
 }

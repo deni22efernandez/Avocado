@@ -36,7 +36,7 @@ namespace Avocado.WEB.Controllers
 			return View(await _prodRepo.GetAllAsync(Common.Common.ProductApi,GetToken()));
 		}
 		[HttpGet]
-		[Authorize]
+		//[Authorize]
 		public async Task<IActionResult> Upsert(int? id)
 		{
 			IEnumerable<Category> categories = await _catRepo.GetAllAsync(Common.Common.CategoryApi);
@@ -60,7 +60,7 @@ namespace Avocado.WEB.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Authorize(Roles = "Admin")]
+		//[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Upsert(Product product)
 		{
 			if (ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace Avocado.WEB.Controllers
 					{
 						product.ImgUri = objFromDb.ImgUri;
 					}					
-					if (await _prodRepo.PutAsync(product, Common.Common.ProductApi))//patch
+					if (await _prodRepo.PatchAsync(product, Common.Common.ProductApi))//patch
 					{
 						//success msg
 						return RedirectToAction(nameof(Index));
