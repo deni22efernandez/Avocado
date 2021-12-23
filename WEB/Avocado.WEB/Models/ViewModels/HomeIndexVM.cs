@@ -10,6 +10,6 @@ namespace Avocado.WEB.Models.ViewModels
 	{
 		public IEnumerable<Category> Categories { get; set; }
 		public IEnumerable<Product> Products { get; set; }
-		public PaginationModel Pagination { get; set; }
+		
 	}
 }

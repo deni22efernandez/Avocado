@@ -20,9 +20,9 @@
 			{
 				<div class="card border-success rounded  mb-3 filter @items.Category.Name.Replace(" ","_")">
 					<div class="card-header text-success bg-transparent">@items.Name</div>
-					<div class="card-body bg-light opacity-25">
+					<div class="card-body bg-light ">
 
-						<img src="~/images/@items.ImgUri" class="img-fluid rounded-start" alt="...">
+						<img src="~/images/@items.ImgUri" class="col-lg-6 p-1 img-fluid rounded-start" alt="...">
 
 					</div>
 					<div class="card-footer bg-success opacity-75">
@@ -32,8 +32,8 @@
 					</div>
 				</div>
 			}
-			<div pagination="@Model.Pagination" clases-enabled="true" page-class="btn border" page-class-normal="btn btn-light"
-				 page-class-selected="btn btn-success active" class="btn-group float-left box-shadow mb-5"></div>
+			@*<div pagination="@Model.Pagination" clases-enabled="true" page-class="btn border" page-class-normal="btn btn-light"
+				 page-class-selected="btn btn-success active" class="btn-group float-left box-shadow mb-5"></div>*@
 			
 		</div>
 		<div class="col-md-2"></div>
@@ -48,11 +48,11 @@
 			$('.filter-button').click(function () {
 				let val = $(this).attr('data-filter');
 				if (val === 'all') {
-					$('.filter').show();
+					$('.filter').show('1000');
 				}
 				else {
-					$('.filter').not('.' + val).hide();
-					$('.filter').filter('.' + val).show();
+					$('.filter').not('.' + val).hide('3000');
+					$('.filter').filter('.' + val).show('3000');
 				}
 			});
 		});

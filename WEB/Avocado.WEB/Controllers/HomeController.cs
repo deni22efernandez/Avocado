@@ -41,15 +41,8 @@ namespace Avocado.WEB.Controllers
 
 			HomeIndexVM homeIndexVM = new HomeIndexVM
 			{
-				Products = productList.Skip((currentPage-1)*3).Take(3),
-				Categories = await _categoryRepo.GetAllAsync(Common.Common.CategoryApi, GetToken()),
-				Pagination = new CustomTagHelper.PaginationModel()
-				{
-					Uri = "/Home/Index?currentPage=:",
-				    CurrentPage=currentPage,
-					TotalItems = productList.Count(),
-					ItemsPerPage = 3
-				}
+				Products = productList,
+				Categories = await _categoryRepo.GetAllAsync(Common.Common.CategoryApi, GetToken())				
 			};
 			return View(homeIndexVM);
 		}
