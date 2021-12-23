@@ -31,7 +31,7 @@ namespace Avocado.API.Controllers
 			if (_unitOfWork.UserRepository.IsUnique(registrationModel.UserName))
 			{
 				await _unitOfWork.UserRepository.AddAsync(registrationModel.Map<User>());
-				//await _unitOfWork.SaveAsync();
+				await _unitOfWork.SaveAsync();
 				JsonResult result = new JsonResult("ok");
 				return Ok(result);
 			}

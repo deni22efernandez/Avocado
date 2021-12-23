@@ -8,7 +8,8 @@
 		this.PostalCode;
 		this.StreetAddress;
 		this.City;
-		this.State
+		this.State;
+		this.Role = "Customer";
 	}
 }
 document.addEventListener('DOMContentLoaded', (e) => {
