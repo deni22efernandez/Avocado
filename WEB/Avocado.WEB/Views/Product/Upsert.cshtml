@@ -43,20 +43,23 @@ else
 				<label class="control-label">Image</label>
 				<input type="file" multiple name="files" class="form-control" />
 				<span asp-validation-for="Product.ImgUri" class="text-danger"></span>
-			</div>			
+			</div>
 			@if (Model.Product.Id == 0)
 			{
-				<div class="form-group">
-					<input type="submit" value="Create" class="btn btn-primary" />
-				</div>
+		<div class="form-group">
+			<input type="submit" value="Create" class="btn btn-warning" />
+			<a asp-action="Index" class="btn btn-success">Back to list</a>
+		</div>
 			}
 			else
 			{
-				<div class="form-group">
-					<input type="submit" value="Update" class="btn btn-primary" />
-				</div>
-			}
+		<div class="form-group">
+			<input type="submit" value="Update" class="btn btn-warning" />		
+			<a asp-action="Index" class="btn btn-success">Back to list</a>
+		</div>
 
+			}
+			
 		</form>
 	</div>
 	<div class="col-md-4">
@@ -65,10 +68,6 @@ else
 			<img src="~/images/@Model.Product.ImgUri" class="img-fluid img-thumbnail"/>
 		}
 	</div>
-</div>
-
-<div>
-	<a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

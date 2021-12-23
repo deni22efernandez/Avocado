@@ -31,9 +31,21 @@ namespace Avocado.WEB.Controllers
 			return User.Identity.IsAuthenticated ? ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name).Value : "";			
 		}
 		
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int currentPage=1)
 		{
-			return View(await _prodRepo.GetAllAsync(Common.Common.ProductApi,GetToken()));
+			var productList = await _prodRepo.GetAllAsync(Common.Common.ProductApi, GetToken());
+			ProductIndexVM productIndexVM = new ProductIndexVM()
+			{
+				Products = productList.Skip((currentPage - 1) * 5).Take(5).ToList(),
+				PaginationModel = new CustomTagHelper.PaginationModel
+				{
+					CurrentPage = currentPage,
+					ItemsPerPage = 5,
+					TotalItems = productList.Count(),
+					Uri = "/Product/Index?currentPage=:"
+				}
+			};
+			return View(productIndexVM);
 		}
 		[HttpGet]
 		//[Authorize]
