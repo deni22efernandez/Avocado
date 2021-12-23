@@ -18,7 +18,8 @@ namespace Avocado.API.Repository
 		public async Task UpdateAsync(OrderHeader orderHeader)//PUT
 		{
 			var orderHeaderFromDb = await _context.OrderHeaders.FirstOrDefaultAsync(x => x.Id == orderHeader.Id);
-			if (orderHeaderFromDb != null) {
+			if (orderHeaderFromDb != null)
+			{
 				orderHeaderFromDb.OrderDate = orderHeader.OrderDate;
 				orderHeaderFromDb.OrderTotal = orderHeader.OrderTotal;
 				orderHeaderFromDb.UserId = orderHeader.UserId;
@@ -35,18 +36,18 @@ namespace Avocado.API.Repository
 				orderHeaderFromDb.StreetAddress = orderHeader.StreetAddress;
 				orderHeaderFromDb.City = orderHeader.City;
 				orderHeaderFromDb.State = orderHeader.State;
-				
+
 			}
 		}
-		public async Task Update(OrderHeader orderHeader)//PATCH
+		public void Update(OrderHeader orderHeader)//PATCH
 		{
-			var _orderFromDb = await _context.OrderHeaders.FirstOrDefaultAsync(x => x.Id == orderHeader.Id);
-			if (_orderFromDb != null)
-			{
-				_orderFromDb.Carrier = orderHeader.Carrier;
-				_orderFromDb.TrackingNumber = orderHeader.TrackingNumber;
-			}
-			 _context.OrderHeaders.Update(_orderFromDb);			
+			//var _orderFromDb = await _context.OrderHeaders.FirstOrDefaultAsync(x => x.Id == orderHeader.Id);
+			//if (_orderFromDb != null)
+			//{
+			//	_orderFromDb.Carrier = orderHeader.Carrier;
+			//	_orderFromDb.TrackingNumber = orderHeader.TrackingNumber;
+			//}
+			 _context.OrderHeaders.Update(orderHeader);			
 		}
 
 		

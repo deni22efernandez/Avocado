@@ -52,6 +52,17 @@ namespace Avocado.WEB.Controllers
 			};
 			return View(orderDetailVM);
 		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Update(OrderDetailVM model)
+		{
+			if (ModelState.IsValid)
+			{
+				await _orderHeaderRepo.PatchAsync(model.OrderHeader, Common.Common.OrderHeaderApi, GetToken());
+
+			}
+			return RedirectToAction(nameof(Index));
+		}
 		public async Task<IActionResult> StartProcessing(int id)
 		{
 			var orderFromDb = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());

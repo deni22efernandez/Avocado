@@ -56,7 +56,7 @@ namespace Avocado.API.Controllers
 			
 		}
 		[HttpPut]
-		public async Task<IActionResult> PutAsync([FromBody]OrderHeaderUpdate orderHeaderUpdate)
+		public async Task<IActionResult> PutAsync([FromBody] OrderHeaderUpdate orderHeaderUpdate)
 		{
 			await _unitOfWork.OrderHeaderRepository.UpdateAsync(orderHeaderUpdate.Map<OrderHeader>());
 			await _unitOfWork.SaveAsync();
@@ -64,16 +64,13 @@ namespace Avocado.API.Controllers
 		}
 		[HttpPatch]
 		public async Task<IActionResult> PatchAsync([FromBody] OrderHeaderUpdate orderHeaderUpdate)
-		{
-			JsonResult result;
-			await _unitOfWork.OrderHeaderRepository.Update(orderHeaderUpdate.Map<OrderHeader>());
+		{			
+			 _unitOfWork.OrderHeaderRepository.Update(orderHeaderUpdate.Map<OrderHeader>());
 			if(await _unitOfWork.SaveAsync())
 			{
-				result = new JsonResult($"Order number {orderHeaderUpdate.Id} was successfully  updated!");
-				return Ok(result);
+				return Ok();
 			}
-			result = new JsonResult($"Error while updating order number {orderHeaderUpdate.Id}");
-			return BadRequest(result);
+			return BadRequest();
 		}
 	}
 }

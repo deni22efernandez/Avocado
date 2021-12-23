@@ -25,17 +25,7 @@
 							<td>@Model.OrderHeaders[i].OrderStatus</td>
 							<td>@Model.OrderHeaders[i].PaymentStatus</td>
 							<td>
-								<a asp-action="Details" asp-route-id="@Model.OrderHeaders[i].Id" class="btn btn-outline-success btn-sm" style="display: inline-table">Details</a>
-								<button id="modal" data-toggle="modal" data-value="@Model.OrderHeaders[i].Id" data-target="#details"
-										data-date="@Model.OrderHeaders[i].OrderDate.ToShortDateString()"
-										data-total="@Model.OrderHeaders[i].OrderTotal"
-										data-orderstatus="@Model.OrderHeaders[i].OrderStatus"
-										data-paymentstatus="@Model.OrderHeaders[i].PaymentStatus"
-										data-trackingnmb="@Model.OrderHeaders[i].TrackingNumber"
-										data-carrier="@Model.OrderHeaders[i].Carrier"
-										class="btn btn-outline-warning btn-sm" style="display:inline-table">
-									Edit
-								</button>
+								<a asp-action="Details" asp-route-id="@Model.OrderHeaders[i].Id" class="btn btn-outline-success btn-sm" style="display: inline-table">Details</a>								
 								<button class="btn btn-outline-danger btn-sm" style="display: inline-table">Delete</button>
 							</td>
 						</tr>
@@ -48,64 +38,9 @@
 			@*<div class="col-md-1"></div>*@
 		</div>
 	</div>
-	<!--Modal/-->
-	<div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="details" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title text-success" id="exampleModalLabel">Order update</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body text-center">
-					<form id="form">
-						<div class="row">
-							<div class="col-md-4">
-								<label class="text-success">Order number</label>
-								<textarea class="form-control order-number" id="ordernumber" readonly></textarea>
-							</div>
-							<div class="col-md-4">
-								<label class="text-success">Date</label>
-								<textarea class="form-control order-date" id="order-date" readonly></textarea>
-							</div>
-							<div class="col-md-4">
-								<label class="text-success">Total</label>
-								<textarea class="form-control order-total" id="order-total" readonly></textarea>
-							</div>
-
-							<div class="col-md-6">
-								<label class="text-success">Order status</label>
-								<textarea class="form-control order-orderStatus" id="order-orderStatus" readonly></textarea>
-							</div>
-
-							<div class="col-md-6">
-								<label class="text-success">Payment status</label>
-								<textarea class="form-control order-paymentStatus" id="order-paymentStatus" readonly></textarea>
-							</div>
-							<div class="col-md-6">
-								<label class="text-success">Carrier</label>
-								<textarea class="form-control order-carrier" id="carrier"></textarea>
-							</div>
-							<div class="col-md-6">
-								<label class="text-success">Tracking number</label>
-								<textarea class="form-control order-trackingNmb" id="tracking"></textarea>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="submit" id="submit" class="btn btn-outline-success">Update</button>
-							<button class="btn btn-outline-success" data-dismiss="modal">Close</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 }
 else
 {
 	<p>No orders to display</p>
-}
-@section Scripts{
-	<script src="~/js/orderupdate.js"></script>
 }

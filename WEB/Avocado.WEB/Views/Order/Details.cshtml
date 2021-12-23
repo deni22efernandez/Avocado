@@ -16,96 +16,101 @@
 			<div class="container rounded p-2">
 				<div class="row">
 					<div class="col-12 col-lg-6 pb-4">
-						@*<div class="row">
-								<h4 class="d-flex justify-content-between align-items-center mb-3">
-									<span class="text-success">Order Details:</span>
-								</h4>
-							</div>*@
-						<div class="row my-1">
-							<div class="col-3">Customer</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.Name" readonly type="text" class="form-control" />
+						<form method="post" id="form">
+							<input type="hidden" asp-for="@Model.OrderHeader.Id"/>
+							<input type="hidden" asp-for="@Model.OrderHeader.UserId"/>
+							<input type="hidden" asp-for="@Model.OrderHeader.OrderDate"/>
+							<input type="hidden" asp-for="@Model.OrderHeader.OrderStatus"/>
+							<input type="hidden" asp-for="@Model.OrderHeader.OrderTotal"/>
+							<div class="row my-1">
+								<div class="col-3">Customer</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.Name" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Phone</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.PhoneNumber" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Phone</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.PhoneNumber" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Address</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.StreetAddress" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Address</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.StreetAddress" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">City</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.City" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">City</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.City" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">State</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.State" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">State</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.State" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Postal Code</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.PostalCode" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Postal Code</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.PostalCode" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Email</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.Email" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Email</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.Email" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Order Date</div>
-							<div class="col-9">
-								<input value="@Model.OrderHeader.OrderDate.ToShortDateString()" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Order Date</div>
+								<div class="col-9">
+									<input value="@Model.OrderHeader.OrderDate.ToShortDateString()" readonly type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Carrier</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.Carrier" id="carrier" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Carrier</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.Carrier" id="carrier" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Tracking</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.TrackingNumber" id="trackingnumber" readonly type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Tracking</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.TrackingNumber" id="trackingnumber" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Session ID</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.SessionId" type="text" readonly class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Session ID</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.SessionId" type="text" readonly class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Payment Intent ID</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.PaymentIntentId" type="text" readonly class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Payment Intent ID</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.PaymentIntentId" type="text" readonly class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Payment Date</div>
-							<div class="col-9">
-								<input value="@Model.OrderHeader.OrderDate.ToShortDateString()"
-									   readonly id="paymentDate" type="text" class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Payment Date</div>
+								<div class="col-9">
+									<input value="@Model.OrderHeader.OrderDate.ToShortDateString()"
+										   readonly id="paymentDate" type="text" class="form-control" />
+								</div>
 							</div>
-						</div>
-						<div class="row my-1">
-							<div class="col-3">Payment Status</div>
-							<div class="col-9">
-								<input asp-for="OrderHeader.PaymentStatus" type="text" readonly class="form-control" />
+							<div class="row my-1">
+								<div class="col-3">Payment Status</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.PaymentStatus" type="text" readonly class="form-control" />
+								</div>
 							</div>
-						</div>
+							<div class="row my-1">
+								<button type="submit" asp-action="Update" class="btn btn-warning form-control">Update details</button>
+							</div>
+						</form>
 					</div>
 					<div class="col-12 col-lg-5 offset-lg-1">
 						@{
@@ -155,19 +160,19 @@
 						</ul>
 						@if (Model.OrderHeader.OrderStatus == "approved")
 						{
-							<a asp-action="StartProcessing" asp-route-id="@Model.OrderHeader.Id" class="btn btn-primary form-control my-1" value="Start Processing"></a> 
+					<a onclick="return validateInput()" asp-action="StartProcessing" asp-route-id="@Model.OrderHeader.Id" class="btn btn-primary form-control my-1" value="Start Processing">Start Processing</a> 
 						}
 						@if (Model.OrderHeader.OrderStatus == "Processing")
 						{
-							<a onclick="return validateInput()" asp-route-id="@Model.OrderHeader.Id"
-								   asp-action="ShipOrder" class="btn btn-primary form-control my-1" value="Ship Order"></a> 
+					<a onclick="return validateInput()" asp-route-id="@Model.OrderHeader.Id"
+					   asp-action="ShipOrder" class="btn btn-primary form-control my-1" value="Ship Order">Ship Order</a> 
 						}
 
 						@if (Model.OrderHeader.OrderStatus != "Refunded" &&
 							Model.OrderHeader.OrderStatus != "Cancelled" &&
 					Model.OrderHeader.OrderStatus != "Shipped")
 						{
-							<a asp-action="CancelOrder" asp-route-id="@Model.OrderHeader.Id" class="btn btn-danger form-control my-1" value="Cancel Order"></a>
+					<a asp-action="CancelOrder" asp-route-id="@Model.OrderHeader.Id" class="btn btn-danger form-control my-1" value="Cancel Order">Cancel Order</a>
 						}
 
 					</div>
@@ -182,21 +187,26 @@
 @section Scripts{
 	<partial name="_ValidationScriptsPartial" />
 	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const form = document.querySelector('#form');
+			form.addEventListener('submit', (e) => {
+				
+				if (!validateInput()) {
+					e.preventDefault();
+					e.stopPropagation();
+				}					
+			});
+		});
+
+
 		function validateInput() {
-			if (document.getElementById("trackingnumber").value == "") {
-				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Please enter tracking number!',
-				});
+			
+			if (document.getElementById("carrier").value == "") {
+				alert('Please enter carrier!');
 				return false;
 			}
-			if (document.getElementById("carrier").value == "") {
-				Swal.fire({
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Please enter carrier!',
-				});
+			if (document.getElementById("trackingnumber").value == "") {
+				alert('Please enter tracking number!');
 				return false;
 			}
 			return true;

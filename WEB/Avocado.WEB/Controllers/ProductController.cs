@@ -120,7 +120,7 @@ namespace Avocado.WEB.Controllers
 					{
 						product.ImgUri = objFromDb.ImgUri;
 					}					
-					if (await _prodRepo.PutAsync(product, Common.Common.ProductApi))//update
+					if (await _prodRepo.PutAsync(product, Common.Common.ProductApi))//patch
 					{
 						//success msg
 						return RedirectToAction(nameof(Index));

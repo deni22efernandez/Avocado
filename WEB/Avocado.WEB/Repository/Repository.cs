@@ -103,7 +103,7 @@ namespace Avocado.WEB.Repository
 			}
 			using (HttpResponseMessage response = await client.SendAsync(request))
 			{
-				if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+				if (response.StatusCode == System.Net.HttpStatusCode.OK)
 				{
 					return true;
 				}
