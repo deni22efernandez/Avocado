@@ -2,7 +2,7 @@
 
 
 <div class="py-3 ">
-	<form method="post">
+	<form method="post" id="form">
 		<input type="hidden" asp-for="Product.Id" />
 		<input type="hidden" asp-for="Product.Name" />
 		<input type="hidden" asp-for="Product.Category.Name" />
@@ -32,10 +32,10 @@
 										<hr />
 										<div class="row py-4">
 											<div class="col-2">
-												<label asp-for="Count"></label>												
+												<label asp-for="Count"></label>
 											</div>
 											<div class="col-2">
-												<input type="number" asp-for="Count" class="form-control rounded" />
+												<input type="number" id="itemcount" asp-for="Count" class="form-control rounded" />
 												<span asp-validation-for="Count" class="text-danger"></span>
 											</div>
 										</div>
@@ -56,13 +56,13 @@
 						@if (Model.ExistsInCart)
 						{
 							<div class="col-12 col-md-6 ">
-								<a asp-action="Remove" asp-route-id="@Model.Product.Id" class="btn btn-outline-light bg-warning rounded form-control" >Remove from Cart</a>
+								<a asp-action="Remove" asp-route-id="@Model.Product.Id" class="btn btn-outline-light bg-warning rounded form-control">Remove from Cart</a>
 							</div>
 						}
 						else
 						{
 							<div class="col-12 col-md-6 ">
-								<button type="submit" class="btn btn-outline-light bg-success rounded form-control " >Add to Cart</button>
+								<button type="submit" class="btn btn-outline-light bg-success rounded form-control">Add to Cart</button>
 							</div>
 						}
 
@@ -72,3 +72,24 @@
 		</div>
 	</form>
 </div>
+@section Scripts{
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const formulario = document.querySelector("#form");
+			formulario.addEventListener('submit', (e) => {
+				if (!validate()) {
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			});
+		});
+		function validate() {
+			const itemcount = document.querySelector("#itemcount");
+			if (itemcount.value === "0") {
+				alert("Count must be greater than 0");
+				return false;
+			}
+			return true;
+		}
+	</script>
+}

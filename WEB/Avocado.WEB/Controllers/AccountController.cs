@@ -3,12 +3,14 @@ using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Avocado.WEB.Controllers
 {
+	[AllowAnonymous]
 	public class AccountController : Controller
 	{
 		private readonly IUserRepository _userRepo;

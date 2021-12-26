@@ -160,10 +160,12 @@ namespace Avocado.WEB.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public IActionResult UpdateCart(List<ShoppingCart> carts)
 		{
 			HttpContext.Session.Get<List<ShoppingCart>>("sessionCart").Clear();
 			HttpContext.Session.Set<List<ShoppingCart>>("sessionCart", carts);
+			TempData["success"] = "Shopping cart was updated!";
 			return RedirectToAction(nameof(Index));
 		}
 		public IActionResult Remove(int id)
@@ -177,6 +179,7 @@ namespace Avocado.WEB.Controllers
 				HttpContext.Session.Set<List<ShoppingCart>>("sessionCart", sessionCarts);
 
 			}
+			TempData["success"] = "Item was removed from cart!";
 			return RedirectToAction(nameof(Index));
 		}
 		public IActionResult Clear()
@@ -197,7 +200,7 @@ namespace Avocado.WEB.Controllers
 					order.PaymentStatus = "approved";
 					await _orderHeaderRepo.PatchAsync(order, Common.Common.OrderHeaderApi, GetToken());//patch
 					//send email
-					await _emailSender.SendEmailAsync(order.Email, "Order confirmation", $"Payment for order #{order.Id} has been approved");
+					//await _emailSender.SendEmailAsync(order.Email, "Order confirmation", $"Payment for order #{order.Id} has been approved");
 					HttpContext.Session.Clear();
 				}
 				return View(order.Id);

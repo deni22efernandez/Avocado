@@ -89,7 +89,7 @@ namespace Avocado.WEB.Controllers
 				cart = cart.Count() > 0 ? cart : null;
 				HttpContext.Session.Set<IEnumerable<ShoppingCart>>("sessionCart", cart);
 			}
-			//item removed successfully
+			TempData["success"] = "item removed succesfully from cart";
 			return RedirectToAction(nameof(Index));
 		}
 
