@@ -1,7 +1,7 @@
 ﻿@model Avocado.WEB.Models.ViewModels.ShoppingCartVM
 
 
-<div class="py-3">
+<div class="py-3 ">
 	<form method="post">
 		<input type="hidden" asp-for="Product.Id" />
 		<input type="hidden" asp-for="Product.Name" />
@@ -10,34 +10,33 @@
 		<input type="hidden" asp-for="Product.Description" />
 		<input type="hidden" asp-for="Product.ImgUri" />
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-		<div class="container backgroundWhite">
+		<div class="container ">
 			<div class="card border-success mb-3 rounded">
 				<div class="card-header bg-success bg-opacity-75 ml-0  btn-square">
 					<div class="col-12 ">
-						<label class="h3 text-light" asp-for="Product.Name" style="display:inline">@Model.Product.Name</label>
-						<label class="h3 text-light offset-10" style="display:inline">$@Model.Product.Price</label>
+						<span class="h5 text-light text-uppercase" asp-for="Product.Name" style="display:inline">@Model.Product.Name</span>
+						<span class="h5 text-light  offset-10" style="display:inline">$@Model.Product.Price</span>
 					</div>
 					<div class="col-12 col-md-6  text-md-right">
 					</div>
 				</div>
-				<div class="card-body">
+				<div class="card-body bg-secondary">
 					<div class="container rounded p-2">
 						<div class="row">
 							<div class="col-12 col-lg-8">
 								<div class="row">
 									<div class="col-12">
-										<label class="">@Model.Product.Category.Name</label>
-
-										<p class="text-secondary">@Model.Product.Description</p>
-
+										<label class="text-success">@Model.Product.Category.Name</label><br />
+										<hr />
+										<p class="text-secondary">@Model.Product.Description</p><br />
+										<hr />
 										<div class="row py-4">
 											<div class="col-2">
-												<label asp-for="Count"></label>
-												<input type="number" asp-for="Count" class="form-control rounded" />
-												<span asp-validation-for="Count" class="text-danger"></span>
+												<label asp-for="Count"></label>												
 											</div>
 											<div class="col-2">
-
+												<input type="number" asp-for="Count" class="form-control rounded" />
+												<span asp-validation-for="Count" class="text-danger"></span>
 											</div>
 										</div>
 									</div>
@@ -52,18 +51,18 @@
 				<div class="card-footer bg-success bg-opacity-75">
 					<div class="row">
 						<div class="col-12 col-md-6 pb-1 ">
-							<a asp-action="Index" class="btn btn-outline-light bg-danger rounded form-control btn-lg" style="height:50px;">Back to List</a>
+							<a asp-action="Index" class="btn btn-outline-light bg-danger rounded form-control " style="height:50px;">Back to List</a>
 						</div>
 						@if (Model.ExistsInCart)
 						{
 							<div class="col-12 col-md-6 ">
-								<a asp-action="Remove" asp-route-id="@Model.Product.Id" class="btn btn-outline-light btn btn-warning rounded form-control btn-lg" style="height:50px;">Remove from Cart</a>
+								<a asp-action="Remove" asp-route-id="@Model.Product.Id" class="btn btn-outline-light bg-warning rounded form-control" >Remove from Cart</a>
 							</div>
 						}
 						else
 						{
 							<div class="col-12 col-md-6 ">
-								<button type="submit" class="btn btn-outline-light bg-success rounded form-control btn-lg" style="height:50px;">Add to Cart</button>
+								<button type="submit" class="btn btn-outline-light bg-success rounded form-control " >Add to Cart</button>
 							</div>
 						}
 
