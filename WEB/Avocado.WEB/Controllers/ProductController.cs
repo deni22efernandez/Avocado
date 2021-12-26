@@ -72,7 +72,7 @@ namespace Avocado.WEB.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		//[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Upsert(Product product)
 		{
 			if (ModelState.IsValid)
@@ -96,10 +96,15 @@ namespace Avocado.WEB.Controllers
 						product.ImgUri = fileName + extention;
 
 					}
-					if(await _prodRepo.PostAsync(product, Common.Common.ProductApi)!=null)
+					if(await _prodRepo.PostAsync(product, Common.Common.ProductApi) != null)
+					{
+						TempData["success"] = "Product created successfully";
 						return RedirectToAction(nameof(Index));
+					}
+						
 					else
 					{
+						TempData["error"] = "Error while creating";
 						ModelState.AddModelError("error", "Error while creating");
 						return RedirectToAction(nameof(Index));
 					}
@@ -134,7 +139,7 @@ namespace Avocado.WEB.Controllers
 					}					
 					if (await _prodRepo.PatchAsync(product, Common.Common.ProductApi))//patch
 					{
-						//success msg
+						TempData["success"] = "Product updated successfully";
 						return RedirectToAction(nameof(Index));
 					}
 				}				

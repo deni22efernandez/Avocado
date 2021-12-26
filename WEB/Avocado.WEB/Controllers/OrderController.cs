@@ -37,7 +37,6 @@ namespace Avocado.WEB.Controllers
 					ItemsPerPage = 3,
 					TotalItems = headers.Count(),
 					Uri = "/Order/Index?currentPage=:"
-
 				}
 			};
 			return View(model);
@@ -67,7 +66,8 @@ namespace Avocado.WEB.Controllers
 		{
 			var orderFromDb = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());
 			orderFromDb.OrderStatus = "Processing";
-			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());			
+			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());
+			TempData["success"] = $"Order {id} status updated successfully!";
 			return RedirectToAction(nameof(Index));
 		}
 		public async Task<IActionResult> ShipOrder(int id)
@@ -75,6 +75,7 @@ namespace Avocado.WEB.Controllers
 			var orderFromDb = await _orderHeaderRepo.GetAsync(id, Common.Common.OrderHeaderApi, GetToken());
 			orderFromDb.OrderStatus = "Shipped";
 			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());
+			TempData["success"] = $"Order {id} status updated successfully!";
 			return RedirectToAction(nameof(Index));
 		}
 		public async Task<IActionResult> CancelOrder(int id)
@@ -100,6 +101,7 @@ namespace Avocado.WEB.Controllers
 				orderFromDb.PaymentStatus = "Cancelled";
 			}
 			await _orderHeaderRepo.PatchAsync(orderFromDb, Common.Common.OrderHeaderApi, GetToken());
+			TempData["success"] = $"Order {id} cancelled successfully!";
 			return RedirectToAction(nameof(Index));
 		}
 	}
