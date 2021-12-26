@@ -27,29 +27,38 @@ namespace Avocado.WEB.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> LoginAsync(LoginModel loginModel,string returnUrl="")
 		{
-			var user = await _userRepo.LoginAsync(loginModel);
-			if (user != null)
+			if (ModelState.IsValid)
 			{
-				var claimIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-				claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-				claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.UserName));
-				claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Token));
-				claimIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
-				ClaimsPrincipal principal = new ClaimsPrincipal(claimIdentity);
-				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-				if (!string.IsNullOrEmpty(returnUrl))
+				var user = await _userRepo.LoginAsync(loginModel);
+				if (user != null)
 				{
-					if (Url.IsLocalUrl(returnUrl))
+					var claimIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+					claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+					claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.UserName));
+					claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Token));
+					claimIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+					ClaimsPrincipal principal = new ClaimsPrincipal(claimIdentity);
+					await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+					if (!string.IsNullOrEmpty(returnUrl))
 					{
-						return LocalRedirect(returnUrl);
+						if (Url.IsLocalUrl(returnUrl))
+						{
+							return LocalRedirect(returnUrl);
+						}
 					}
+					TempData["success"] = $"Welcome {user.UserName}!";
+					return RedirectToAction("Index", "Home");
 				}
-				return RedirectToAction("Index", "Home");
+				TempData["error"] = "Incorrect username or password!";
+				ModelState.AddModelError("error", "incorrect username or password");
+				return View(loginModel);
 			}
-			ModelState.AddModelError("error", "incorrect username or password");
-			return View(loginModel);
+			TempData["error"] = "Username and password are required!";
+			return View();
+			
 		}
 
 		[HttpGet]
@@ -65,10 +74,17 @@ namespace Avocado.WEB.Controllers
 			{
 				user.Role = "customer";
 				if (await _userRepo.PostAsync(user, Common.Common.UserApi + "register") != null)
+				{
+					TempData["success"] = $"Successfull registration!";
 					return RedirectToAction(nameof(Login));
+				}					
 				else
-					return View(user);//
+				{
+					TempData["error"] = "Username already exists!";
+					return View(user);
+				}
 			}
+			TempData["error"] = "Username and password are required!";
 			return View();
 		}
 

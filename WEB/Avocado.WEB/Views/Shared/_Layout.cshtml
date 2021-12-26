@@ -43,7 +43,7 @@
 							<a class="nav-link text-dark" href="~/html/CategoryCreate.html">Category</a>
 						</li>
 						@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-					 _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+					_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 						{
 							var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
 
@@ -63,6 +63,9 @@
 						{
 							<li class="nav-item offset-1">
 								<a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+							</li>
+							<li class="nav-item ">
+								<a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
 							</li>
 						}
 					</ul>
