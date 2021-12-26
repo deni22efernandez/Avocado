@@ -46,6 +46,7 @@ namespace Avocado.WEB
 					x.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 					x.SlidingExpiration = true;
 				});
+			services.AddDistributedMemoryCache();
 			services.AddSession(x=> {
 				x.Cookie.IsEssential = true;
 				x.IdleTimeout = TimeSpan.FromMinutes(5);

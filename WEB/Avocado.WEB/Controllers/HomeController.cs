@@ -62,7 +62,7 @@ namespace Avocado.WEB.Controllers
 		public IActionResult Details()
 		{
 			if (ModelState.IsValid)
-			{							
+			{
 				var cart = HttpContext.Session.Get<List<ShoppingCart>>("sessionCart") ?? new List<ShoppingCart>();
 				ShoppingCart newCart = new ShoppingCart
 				{
@@ -71,8 +71,10 @@ namespace Avocado.WEB.Controllers
 				};
 				cart.Add(newCart);
 				HttpContext.Session.Set<IEnumerable<ShoppingCart>>("sessionCart", cart);
+				TempData["success"] = $"{shoppingCartVM.Product.Name} was added to cart";
 				return RedirectToAction(nameof(Index));
 			}
+			TempData["error"] = $"{shoppingCartVM.Product.Name} could not be added to cart";
 			return View(shoppingCartVM);
 		}
 
