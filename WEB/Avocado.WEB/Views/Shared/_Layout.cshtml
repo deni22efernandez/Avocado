@@ -39,12 +39,11 @@
 						{
 							if (User.IsInRole("Admin"))
 							{
-
 								<li class="nav-item offset-6">
 									<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
 								</li>
 								@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+									 _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 								{
 									var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
 
@@ -62,7 +61,7 @@ _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count(
 									<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
 								</li>
 								@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+									 _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
 								{
 									var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
 
@@ -85,9 +84,6 @@ _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count(
 							</li>
 
 						}
-
-
-
 					</ul>
 				</div>
 			</div>
@@ -101,11 +97,6 @@ _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count(
 			@RenderBody()
 		</main>
 	</div>
-	@*<footer class="border-top footer text-muted">
-			<div class="container">
-				&copy; 2021 - Avocado -
-			</div>
-		</footer>*@
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="~/lib/jquery/dist/jquery.js"></script>
 	@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>*@
