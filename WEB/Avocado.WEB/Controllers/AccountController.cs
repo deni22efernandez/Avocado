@@ -93,10 +93,15 @@ namespace Avocado.WEB.Controllers
 		[ActionName("Logout")]
 		public async Task<IActionResult> LogoutAsync()
 		{
+			HttpContext.Session.Clear();
 			await HttpContext.SignOutAsync();
 			return RedirectToAction("Index", "Home");
 		}
 		public IActionResult Index()
+		{
+			return View();
+		}
+		public IActionResult AccessDenied()
 		{
 			return View();
 		}

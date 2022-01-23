@@ -2,6 +2,7 @@
 using Avocado.WEB.Models.ViewModels;
 using Avocado.WEB.Repository.IRepository;
 using Avocado.WEB.SessionXtension;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Avocado.WEB.Controllers
 {
+	[Authorize(Roles ="Admin")]
 	public class OrderController : Controller
 	{
 		private readonly IOrderHeaderRepository _orderHeaderRepo;

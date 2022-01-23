@@ -1,16 +1,14 @@
 ﻿@using Avocado.WEB.SessionXtension
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor _contxt
-@{
 
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - Avocado.WEB</title>
-	
+
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 	<link rel="stylesheet" href="~/css/site.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
@@ -25,59 +23,81 @@
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						<li class="nav-item h3">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Avocado</a>
 						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" asp-action="Index" asp-controller="Category">Index</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Separated link</a>
-							</div>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link text-dark" href="~/html/CategoryCreate.html">Category</a>
-						</li>
-						@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
-					_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+						@if (User.IsInRole("Admin"))
 						{
-							var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
-
-							<li class="nav-item ">
-								<a class="nav-link" asp-controller="Cart" asp-action="Index">
-									<i class="fas fa-shopping-cart">&nbsp;(@cart)</i>
-								</a>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Products</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-controller="Order" asp-action="Index">Orders</a>
 							</li>
 						}
 						@if (User.Identity.IsAuthenticated)
 						{
-							<li class="nav-item offset-1">
-								<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
-							</li>
+							if (User.IsInRole("Admin"))
+							{
+
+								<li class="nav-item offset-6">
+									<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+								</li>
+								@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
+_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+								{
+									var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
+
+									<li class="nav-item ">
+										<a class="nav-link" asp-controller="Cart" asp-action="Index">
+											<i class="fas fa-shopping-cart">&nbsp;(@cart)</i>
+										</a>
+									</li>
+								}
+							}
+							else
+							{
+
+								<li class="nav-item offset-8">
+									<a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+								</li>
+								@if (_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart") != null &&
+_contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count() > 0)
+								{
+									var cart = _contxt.HttpContext.Session.Get<IEnumerable<ShoppingCart>>("sessionCart").Count();
+
+									<li class="nav-item ">
+										<a class="nav-link" asp-controller="Cart" asp-action="Index">
+											<i class="fas fa-shopping-cart">&nbsp;(@cart)</i>
+										</a>
+									</li>
+								}
+							}
+
 						}
 						else
 						{
-							<li class="nav-item offset-1">
+							<li class="nav-item offset-7">
 								<a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
 							</li>
 							<li class="nav-item ">
 								<a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
 							</li>
+
 						}
+
+
+
 					</ul>
 				</div>
 			</div>
 		</nav>
-		
+
 	</header>
 
 	<div class="container">
 		<main role="main" class="pb-3">
-			<partial name="_Notifications"/>
+			<partial name="_Notifications" />
 			@RenderBody()
 		</main>
 	</div>
@@ -86,10 +106,11 @@
 				&copy; 2021 - Avocado -
 			</div>
 		</footer>*@
-
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+	@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>*@
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 	@RenderSection("Scripts", required: false)
 </body>
 </html>

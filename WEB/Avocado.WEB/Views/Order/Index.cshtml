@@ -25,8 +25,11 @@
 							<td>@Model.OrderHeaders[i].OrderStatus</td>
 							<td>@Model.OrderHeaders[i].PaymentStatus</td>
 							<td>
-								<a asp-action="Details" asp-route-id="@Model.OrderHeaders[i].Id" class="btn btn-outline-success btn-sm" style="display: inline-table">Details</a>								
-								<button class="btn btn-outline-danger btn-sm" style="display: inline-table">Delete</button>
+								<a asp-action="Details" asp-route-id="@Model.OrderHeaders[i].Id">
+									<button class="btn btn-outline-success btn-sm">Details</button>
+								</a>
+
+								<button class="btn btn-outline-danger btn-sm" style="display: inline-table" disabled>Delete</button>
 							</td>
 						</tr>
 					}

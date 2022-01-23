@@ -6,14 +6,14 @@
 }
 @if (Model.Product.Id == 0)
 {
-	<h4>New product</h4>
+	<h4 class="py-3">New product</h4>
 }
 else
 {
-	<h4>Update: @Model.Product.Name</h4>
+	<h4 class="py-3">Update: @Model.Product.Name</h4>
 }
 <hr />
-<div class="row">
+<div class="row py-3">
 	<div class="col-md-4">
 		<form asp-action="Upsert" enctype="multipart/form-data">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -25,7 +25,7 @@ else
 			</div>
 			<div class="form-group">
 				<label asp-for="Product.Description" class="control-label"></label>
-				<input asp-for="Product.Description" class="form-control" />
+				<textarea asp-for="Product.Description" class="form-control" rows="3" cols="5"></textarea> 
 				<span asp-validation-for="Product.Description" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -44,6 +44,7 @@ else
 				<input type="file" multiple name="files" class="form-control" />
 				<span asp-validation-for="Product.ImgUri" class="text-danger"></span>
 			</div>
+			<br />
 			@if (Model.Product.Id == 0)
 			{
 		<div class="form-group">
@@ -62,7 +63,7 @@ else
 			
 		</form>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 py-3">
 		@if (Model.Product.ImgUri != null)
 		{
 			<img src="~/images/@Model.Product.ImgUri" class="img-fluid img-thumbnail"/>

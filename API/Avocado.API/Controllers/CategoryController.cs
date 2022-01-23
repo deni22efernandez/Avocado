@@ -36,7 +36,7 @@ namespace Avocado.API.Controllers
 		{
 			var obj = categoryCreateDto.Map<Category>();
 			await _unit.CategoryRepository.AddAsync(obj);
-			//await _unit.SaveAsync();
+			await _unit.SaveAsync();
 			//return Created("GetAsync", obj);
 			JsonResult result = new JsonResult(obj);
 			return result;

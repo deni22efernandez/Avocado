@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Avocado.WEB.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class ProductController : Controller
 	{
 		private readonly IProductRepository _prodRepo;
